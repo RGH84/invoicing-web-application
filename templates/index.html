@@ -1,4 +1,12 @@
 <!DOCTYPE html>
-<title>Etusivu</title>
+<meta charset="utf-8">
+<title>Frontpage</title>
+{% if session.user_id %}
+<p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
 <h1>Tervetuloa JK laskutussovellukseen!</h1>
-<p>Sivustot ovat vielä kehitteillä. <p>Olet sivuston {{ counter }}. kävijä.</p></p>
+<p>Sivustot ovat vielä kehitteillä.</p>
+<p>Tämä sivu on latautunut {{ counter }}. kertaa.</p>
+<a href="/login">Kirjaudu sisään tai luo uusi tunnus tästä</a>
+{% endif %}
