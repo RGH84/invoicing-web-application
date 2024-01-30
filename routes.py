@@ -3,6 +3,7 @@ from app import app
 import visits
 from flask import redirect, render_template, request, session
 import users
+import customers
 
 @app.route("/")
 def index():
@@ -42,4 +43,27 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
+        
+@app.route("/new_customer", methods=["GET", "POST"])
+def new_customer():
+    if request.method == "GET":
+        return render_template("/new_customer.html")
+    if request.method == "POST":
+        user_id = users.user_id()
+        customer_name = request.form["customer_name"]
+        address = request.form["address"]
+        phonenumber = request.form["phonenumber"]
+        business_id = request.form["business_id"]
+        #tähän väliin errorit
+        if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
+            return render_template("approve.html", message="Asiakkan luonti onnistui.")
+        #Lisää paluu etusivulle/uusi asiakas nappi
+        else:
+            return render_template("error.html", message="Asiakkan luonti ei onnistunut")
+        #Lisää paluu etusivulle/uusi asiakas nappi
+@app.route("/customer_register")
+def customer_register():
+    return render_template("/customer_register.html")
+
+
 
