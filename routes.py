@@ -54,16 +54,17 @@ def new_customer():
         address = request.form["address"]
         phonenumber = request.form["phonenumber"]
         business_id = request.form["business_id"]
-        #tähän väliin errorit
+        #tähän väliin errorit ja ehdot..
         if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
             return render_template("approve.html", message="Asiakkan luonti onnistui.")
-        #Lisää paluu etusivulle/uusi asiakas nappi
         else:
             return render_template("error.html", message="Asiakkan luonti ei onnistunut")
         #Lisää paluu etusivulle/uusi asiakas nappi
+
 @app.route("/customer_register")
 def customer_register():
-    return render_template("/customer_register.html")
+    list = customers.customer_register()
+    return render_template("/customer_register.html", count=len(list), customers_register=list)
 
 
 
