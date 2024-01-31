@@ -12,13 +12,9 @@
     <hr>
     {% for customer in customers_register %}
     <i>Asiakkaan nimi:</i> {{ customer[0] }}
-    <p>
-    <i>Osoite:</i> {{ customer[1] }}
-    <p>
-    <i>Puhelinnumero:</i> {{ customer[2] }}
-    <p>
-    <i>Y-tunnus:</i> {{ customer[3] }}
-    <p>
+    <p><i>Osoite:</i> {{ customer[1] }}</p>
+    <p><i>Puhelinnumero:</i> {{ customer[2] }}</p>
+    <p><i>Y-tunnus:</i> {{ customer[3] }}</p>
     <hr>
     {% endfor %}
     <p>Jos haluat luoda uuden asiakkaan tai siirtyä etusivulle, siirry tästä:</p>
