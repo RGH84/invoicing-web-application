@@ -21,8 +21,7 @@ def login():
         if users.login(username, password):
             session["username"] = username
             return redirect("/")
-        else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+        return render_template("error.html", message="Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
@@ -40,9 +39,8 @@ def register():
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
         if users.register(username, password1):
-            return redirect("/")
-        else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            return redirect("/login")
+        return render_template("error.html", message="Rekisteröinti ei onnistunut, kokeile eri käyttäjkätunnusta.")
         
 @app.route("/new_customer", methods=["GET", "POST"])
 def new_customer():
@@ -57,14 +55,13 @@ def new_customer():
         #tähän väliin errorit ja ehdot..
         if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
             return render_template("approve.html", message="Asiakkan luonti onnistui.")
-        else:
-            return render_template("error.html", message="Asiakkan luonti ei onnistunut")
+        return render_template("error.html", message="Asiakkan luonti ei onnistunut")
         #Lisää paluu etusivulle/uusi asiakas nappi
 
 @app.route("/customer_register")
 def customer_register():
-    list = customers.customer_register()
-    return render_template("/customer_register.html", count=len(list), customers_register=list)
+    customers_table = customers.customer_register()
+    return render_template("/customer_register.html", count=len(customers_table), customers_register=customers_table)
 
 
 

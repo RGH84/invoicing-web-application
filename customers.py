@@ -13,6 +13,6 @@ def new_customer(customer_name, address, phonenumber, business_id, user_id):
 def customer_register():
     sql = text("SELECT C.customer_name, C.address, C.phonenumber, C.business_id FROM customers C, users U WHERE C.user_id=U.id ORDER BY C.id")
     result = db.session.execute(sql)
-    return result.fetchall()   
+    return result.fetchall()  
 
     
