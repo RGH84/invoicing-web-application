@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Product register</title>
+  </head>
+  <body>
+    <h1>Tuoterekisteri</h1>
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <p>Täällä voit katsella tuotteita ja palveluitasi!</p>
+    <p>Sinulla on {{ count }} tuotetta ja palvelua.</p>
+    <hr>
+    {% for product in products_register %}
+    <p><i>Tuotteen/palvelun nimi:</i> {{ product[0] }}</p>
+    <p><i>Tyyppi:</i> {{ product[1] }}</p>
+    <p><i>Tuotenumero/tunnus:</i> {{ product[2] }}</p>
+    <p><i>Hinta:</i> {{ product[3] }}</p>
+    <hr>
+    {% endfor %}
+    <p>Jos haluat luoda uuden tuotteen paina tästä: <nav><a href="/new_product">Luo uusi tuote</a></nav></p>
+    <p>Jos haluat etusivulle paina tästä: <nav><a href="/">Etusivulle</a></nav></p>
+  </body> 
+</html> 

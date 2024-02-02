@@ -18,4 +18,14 @@ CREATE TABLE visitors (
     time TIMESTAMP
 );
 
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY, 
+    product_name TEXT, 
+    type TEXT, 
+    product_number TEXT, 
+    price TEXT, 
+    user_id INTEGER REFERENCES users
+);
+
+
 

@@ -4,6 +4,7 @@ import visits
 from flask import redirect, render_template, request, session
 import users
 import customers
+import products
 
 @app.route("/")
 def index():
@@ -52,16 +53,34 @@ def new_customer():
         address = request.form["address"]
         phonenumber = request.form["phonenumber"]
         business_id = request.form["business_id"]
-        #tähän väliin errorit ja ehdot..
         if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
             return render_template("approve.html", message="Asiakkan luonti onnistui.")
         return render_template("error.html", message="Asiakkan luonti ei onnistunut")
-        #Lisää paluu etusivulle/uusi asiakas nappi
+        
 
 @app.route("/customer_register")
 def customer_register():
     customers_table = customers.customer_register()
     return render_template("/customer_register.html", count=len(customers_table), customers_register=customers_table)
+
+@app.route("/new_product", methods=["GET", "POST"])
+def new_product():
+    if request.method == "GET":
+        return render_template("/new_product.html")
+    if request.method == "POST":
+        user_id = users.user_id()
+        product_name = request.form["product_name"]
+        type = request.form["type"]
+        product_number = request.form["product_number"]
+        price = request.form["price"]
+        if products.new_product(product_name, type, product_number, price, user_id):
+            return render_template("approve.html", message="Tuotteen luonti onnistui.")
+        return render_template("error.html", message="Tuotteen luonti ei onnistunut")
+    
+@app.route("/product_register")
+def product_register():
+    products_table = products.product_register()
+    return render_template("/product_register.html", count=len(products_table), products_register=products_table)
 
 
 
