@@ -41,7 +41,7 @@ def register():
             return render_template("error.html", message="Salasanat eroavat")
         if users.register(username, password1):
             return redirect("/login")
-        return render_template("error.html", message="Rekisteröinti ei onnistunut, kokeile eri käyttäjkätunnusta.")
+        return render_template("error.html", message="Rekisteröinti ei onnistunut, kokeile eri käyttäjätunnusta.")
         
 @app.route("/new_customer", methods=["GET", "POST"])
 def new_customer():
@@ -81,6 +81,23 @@ def new_product():
 def product_register():
     products_table = products.product_register()
     return render_template("/product_register.html", count=len(products_table), products_register=products_table)
+
+@app.route("/new_invoice")
+def new_invoice():
+    return render_template("/new_invoice.html")
+
+@app.route("/invoice_archive")
+def invoice_archive():
+    return render_template("/invoice_archive.html")
+
+@app.route("/to_do_list")
+def to_do_list():
+    return render_template("/to_do_list.html")
+
+@app.route("/sent_message")
+def sent_message():
+    return render_template("/sent_message.html")
+
 
 
 
