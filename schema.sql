@@ -11,6 +11,7 @@ CREATE TABLE customers (
     phonenumber TEXT, 
     business_id TEXT, 
     user_id INTEGER REFERENCES users
+    visible BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE visitors (
@@ -25,6 +26,7 @@ CREATE TABLE products (
     product_number TEXT, 
     price TEXT, 
     user_id INTEGER REFERENCES users
+    visible BOOLEAN DEFAULT TRUE
 );
 
 
