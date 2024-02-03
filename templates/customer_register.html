@@ -6,8 +6,10 @@
   </head>
   <body>
     <h1>Asiakasrekisteri</h1>
+    {% if session.user_id %}
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Täällä voit katsella asiakkaitasi!</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <p>Sinulla on {{ count }} asiakasta.</p>
     <hr>
     {% for customer in customers_register %}
@@ -17,8 +19,15 @@
     <p><i>Y-tunnus:</i> {{ customer[3] }}</p>
     <hr>
     {% endfor %}
-    <p>Jos haluat luoda uuden asiakkaan tai siirtyä etusivulle, siirry tästä:</p>
+    <p>Jos haluat luoda uuden asiakkaan, poistaa asiakkaan tai siirtyä etusivulle, siirry tästä:</p>
     <nav><a href="/new_customer">Uusi asiakas</a></nav>
-    <nav><a href="/">Etusivulle</a></nav>
+    <nav><a href="/">Etusivulle</a></nav> 
+    {% else %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sinuklla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
+    {% endif %}
   </body> 
 </html> 
+

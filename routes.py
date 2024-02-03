@@ -57,10 +57,10 @@ def new_customer():
             return render_template("approve.html", message="Asiakkan luonti onnistui.")
         return render_template("error.html", message="Asiakkan luonti ei onnistunut")
         
-
 @app.route("/customer_register")
 def customer_register():
-    customers_table = customers.customer_register()
+    user_id = users.user_id()
+    customers_table = customers.customer_register(user_id)
     return render_template("/customer_register.html", count=len(customers_table), customers_register=customers_table)
 
 @app.route("/new_product", methods=["GET", "POST"])
@@ -79,7 +79,8 @@ def new_product():
     
 @app.route("/product_register")
 def product_register():
-    products_table = products.product_register()
+    user_id = users.user_id()
+    products_table = products.product_register(user_id)
     return render_template("/product_register.html", count=len(products_table), products_register=products_table)
 
 @app.route("/new_invoice")

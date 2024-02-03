@@ -9,7 +9,7 @@ def new_product(product_name, type, product_number, price, user_id):
     db.session.commit()
     return True
 
-def product_register():
-    sql = text("SELECT P.product_name, P.type, P.product_number, P.price FROM products P, users U WHERE P.user_id=U.id ORDER BY P.id")
-    result = db.session.execute(sql)
+def product_register(user_id):
+    sql = text("SELECT P.product_name, P.type, P.product_number, P.price FROM products P WHERE P.user_id=:user_id ORDER BY P.id")
+    result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()  

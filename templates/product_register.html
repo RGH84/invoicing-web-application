@@ -5,9 +5,11 @@
     <title>Product register</title>
   </head>
   <body>
+    {% if session.user_id %}
     <h1>Tuoterekisteri</h1>
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Täällä voit katsella tuotteita ja palveluitasi!</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <p>Sinulla on {{ count }} tuotetta ja palvelua.</p>
     <hr>
     {% for product in products_register %}
@@ -19,5 +21,12 @@
     {% endfor %}
     <p>Jos haluat luoda uuden tuotteen paina tästä: <nav><a href="/new_product">Luo uusi tuote</a></nav></p>
     <p>Jos haluat etusivulle paina tästä: <nav><a href="/">Etusivulle</a></nav></p>
+    {% else %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sinuklla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
+    {% endif %}
   </body> 
 </html> 
+

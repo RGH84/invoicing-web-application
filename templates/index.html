@@ -6,6 +6,8 @@
   </head>
   <body>
     {% if session.user_id %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <p>Mitä haluat tehdä? Valitse toiminto alta.</p>
     <a href="/new_customer">Luo uusi asiakas</a>
@@ -21,7 +23,8 @@
     <h1>Tervetuloa JK laskutussovellukseen!</h1>
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Tämä sivu on latautunut {{ counter }}. kertaa.</p>
-    <a href="/login">Kirjaudu sisään tai luo uusi tunnus tästä</a>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
     {% endif %}
   </body> 
 </html> 

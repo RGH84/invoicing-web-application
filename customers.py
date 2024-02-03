@@ -10,9 +10,9 @@ def new_customer(customer_name, address, phonenumber, business_id, user_id):
     db.session.commit()
     return True
 
-def customer_register():
-    sql = text("SELECT C.customer_name, C.address, C.phonenumber, C.business_id FROM customers C, users U WHERE C.user_id=U.id ORDER BY C.id")
-    result = db.session.execute(sql)
+def customer_register(user_id):
+    sql = text("SELECT C.customer_name, C.address, C.phonenumber, C.business_id FROM customers C WHERE C.user_id=:user_id ORDER BY C.id")
+    result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()  
 
     
