@@ -37,6 +37,10 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        if len(password1) > 20 or len(username) > 20:
+            return render_template("error.html", message="Liian pitkä tunnus tai salasana. Max 20 kirjainta.")
+        if len(password1) < 4 or len(username) < 4:
+            return render_template("error.html", message="Liian lyhyt tunnus tai salasana. Min 4 kirjainta.")
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
         if users.register(username, password1):
@@ -53,6 +57,10 @@ def new_customer():
         address = request.form["address"]
         phonenumber = request.form["phonenumber"]
         business_id = request.form["business_id"]
+        if len(customer_name) > 20 or len(address) > 20 or len(phonenumber) > 20 or len(business_id) > 20:
+            return render_template("error.html", message="Joku kentistä on liian pitkä. Max 20 kirjainta")
+        if len(customer_name) < 1 or len(address) < 1 or len(phonenumber) < 1 or len(business_id) < 1:
+            return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
         if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
             return render_template("approve.html", message="Asiakkan luonti onnistui.")
         return render_template("error.html", message="Asiakkan luonti ei onnistunut")
@@ -73,6 +81,10 @@ def new_product():
         type = request.form["type"]
         product_number = request.form["product_number"]
         price = request.form["price"]
+        if len(product_name) > 20 or len(type) > 20 or len(product_number) > 20 or len(price) > 20:
+            return render_template("error.html", message="Joku kentistä on liian pitkä. Max 20 kirjainta")
+        if len(product_name) < 1 or len(type) < 1 or len(product_number) < 1 or len(price) < 1:
+            return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
         if products.new_product(product_name, type, product_number, price, user_id):
             return render_template("approve.html", message="Tuotteen luonti onnistui.")
         return render_template("error.html", message="Tuotteen luonti ei onnistunut")
