@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>remove_customer</title>
+  </head>
+  <body>
+    <h1>Asiakkaan poistaminen</h1>
+    {% if session.user_id %}
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <p>Täällä voit voit poistaa asiakkaan!</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+    <hr>
+    <form action="/remove_customer" method="post">
+    <p>Anna poistettavan asiakkaan ID: <input type="text" name="ID"></p>
+    <p><input type="submit" value="Poista asiakas"></p>
+    </form>
+    <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
+    <nav><a href="/">Etusivulle</a></nav> 
+    {% else %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
+    {% endif %}
+  </body> 
+</html> 

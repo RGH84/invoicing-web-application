@@ -13,17 +13,18 @@
     <p>Sinulla on {{ count }} tuotetta ja palvelua.</p>
     <hr>
     {% for product in products_register %}
-    <p><i>Tuotteen/palvelun nimi:</i> {{ product[0] }}</p>
-    <p><i>Tyyppi:</i> {{ product[1] }}</p>
-    <p><i>Tuotenumero/tunnus:</i> {{ product[2] }}</p>
-    <p><i>Hinta:</i> {{ product[3] }}</p>
+    <p><i>ID:</i> {{ product[0] }}</p>
+    <p><i>Tuotteen/palvelun nimi:</i> {{ product[1] }}</p>
+    <p><i>Tyyppi:</i> {{ product[2] }}</p>
+    <p><i>Tuotenumero/tunnus:</i> {{ product[3] }}</p>
+    <p><i>Hinta:</i> {{ product[4] }}</p>
     <hr>
     {% endfor %}
     <p>Jos haluat luoda uuden tuotteen paina tästä: <nav><a href="/new_product">Luo uusi tuote</a></nav></p>
     <p>Jos haluat etusivulle paina tästä: <nav><a href="/">Etusivulle</a></nav></p>
     {% else %}
     <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinuklla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
     <a href="/login">Kirjaudu sisään tästä</a>
     <a href="/register">Luo uusi tunnus tästä</a>
     {% endif %}

@@ -95,6 +95,20 @@ def product_register():
     products_table = products.product_register(user_id)
     return render_template("/product_register.html", count=len(products_table), products_register=products_table)
 
+@app.route("/remove_customer", methods=["GET", "POST"])
+def remove_customer():
+    if request.method == "GET":
+        return render_template("remove_customer.html")
+    if request.method == "POST":
+        id = request.form["ID"]
+        user_id = users.user_id()
+        customers_id = customers.customers_id(user_id)
+        if id not in customers_id:
+            return render_template("error.html", message="Asiakkaan poisto ei onnistunut, tarkista ID.")
+        if customers.remove_customer(id):
+            return render_template("approve.html", message="Asiakkaan poisto onnistui.")
+        return render_template("error.html", message="Asiakkaan poisto ei onnistunut, tarkista ID.")
+        
 @app.route("/new_invoice")
 def new_invoice():
     return render_template("/new_invoice.html")

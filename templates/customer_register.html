@@ -13,18 +13,20 @@
     <p>Sinulla on {{ count }} asiakasta.</p>
     <hr>
     {% for customer in customers_register %}
-    <i>Asiakkaan nimi:</i> {{ customer[0] }}
-    <p><i>Osoite:</i> {{ customer[1] }}</p>
-    <p><i>Puhelinnumero:</i> {{ customer[2] }}</p>
-    <p><i>Y-tunnus:</i> {{ customer[3] }}</p>
+    <p><i>ID:</i> {{ customer[0] }}</p>
+    <p><i>Asiakkaan nimi:</i> {{ customer[1] }}</p>
+    <p><i>Osoite:</i> {{ customer[2] }}</p>
+    <p><i>Puhelinnumero:</i> {{ customer[3] }}</p>
+    <p><i>Y-tunnus:</i> {{ customer[4] }}</p>
     <hr>
     {% endfor %}
     <p>Jos haluat luoda uuden asiakkaan, poistaa asiakkaan tai siirtyä etusivulle, siirry tästä:</p>
     <nav><a href="/new_customer">Uusi asiakas</a></nav>
+    <nav><a href="/remove_customer">Poista asiakas</a></nav>
     <nav><a href="/">Etusivulle</a></nav> 
     {% else %}
     <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinuklla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
     <a href="/login">Kirjaudu sisään tästä</a>
     <a href="/register">Luo uusi tunnus tästä</a>
     {% endif %}
