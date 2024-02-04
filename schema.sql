@@ -10,7 +10,7 @@ CREATE TABLE customers (
     address TEXT, 
     phonenumber TEXT, 
     business_id TEXT, 
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
     visible BOOLEAN DEFAULT TRUE
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE products (
     type TEXT, 
     product_number TEXT, 
     price TEXT, 
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
     visible BOOLEAN DEFAULT TRUE
 );
 
