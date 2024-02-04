@@ -20,10 +20,9 @@
     <p><i>Y-tunnus:</i> {{ customer[4] }}</p>
     <hr>
     {% endfor %}
-    <p>Jos haluat luoda uuden asiakkaan, poistaa asiakkaan tai siirtyä etusivulle, siirry tästä:</p>
-    <nav><a href="/new_customer">Uusi asiakas</a></nav>
-    <nav><a href="/remove_customer">Poista asiakas</a></nav>
-    <nav><a href="/">Etusivulle</a></nav> 
+    <p>Jos haluat luoda uuden asiakkaan paina tästä: <nav><a href="/new_customer">Uusi asiakas</a></nav></p>
+    <p>Jos haluat poistaa asiakkaan paina tästä: <nav><a href="/remove_customer">Poista asiakas</a></nav></p>
+    <p>Jos haluat etusivulle paina tästä: <nav><a href="/">Etusivulle</a></nav></p>
     {% else %}
     <h1>Tervetuloa JK laskutussovellukseen!</h1>
     <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>

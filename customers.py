@@ -15,13 +15,17 @@ def customer_register(user_id):
     return result.fetchall()  
 
 def remove_customer(id):
-    sql = text("UPDATE customers SET visible=FALSE WHERE id=:id")
-    db.session.execute(sql, {"id": id})
-    db.session.commit()
+    try:
+        sql = text("UPDATE customers SET visible=FALSE WHERE id=:id")
+        db.session.execute(sql, {"id": id})
+        db.session.commit()
+    except:
+        return False
     return True
 
 def customers_id(user_id):
     sql = text("SELECT C.id FROM customers C WHERE C.user_id=:user_id AND C.visible=TRUE ORDER BY C.id")
     result = db.session.execute(sql, {"user_id": user_id})
-    return result.fetchall()
+    id_list = [row[0] for row in result.fetchall()]
+    return id_list
     
