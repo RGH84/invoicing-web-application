@@ -6,9 +6,18 @@
   </head>
   <body>
     <h1>Laskuarkisto</h1>
-    <p>Sivustot ovat vielä kehitteillä. Tämä toiminto on vielä täysin kesken.</p>
+    <p>Sivustot ovat vielä kehitteillä. Tämä toiminto on vielä kesken.</p>
     <p>Täällä voit tarkistella laskujasi!</p>
     <hr>
+    <hr>
+    {% for customer in invoice_archive %}
+    <p><i>ID:</i> {{ customer[0] }}</p>
+    <p><i>Asiakkaan nimi:</i> {{ customer[1] }}</p>
+    <p><i>Osoite:</i> {{ customer[2] }}</p>
+    <p><i>Puhelinnumero:</i> {{ customer[3] }}</p>
+    <p><i>Y-tunnus:</i> {{ customer[4] }}</p>
+    <hr>
+    {% endfor %}
     <nav><a href="/">Etusivulle</a></nav>
   </body> 
 </html> 

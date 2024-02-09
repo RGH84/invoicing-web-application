@@ -5,6 +5,8 @@ from flask import redirect, render_template, request, session
 import users
 import customers
 import products
+import invoices
+from datetime import datetime
 
 @app.route("/")
 def index():
@@ -119,13 +121,44 @@ def remove_product():
             return render_template("approve.html", message="Tuotteen poisto onnistui.")
         return render_template("error.html", message="Tuotteen poisto ei onnistunut, tarkista ID.")
      
-@app.route("/new_invoice")
+@app.route("/new_invoice", methods=["GET", "POST"])
 def new_invoice():
-    return render_template("/new_invoice.html")
+    if request.method == "GET":
+        return render_template("/new_invoice.html")
+    if request.method == "POST":
+        create_time = datetime.now()
+        form_time = create_time.strftime("%d-%m-%Y %H:%M:%S")
+        user_id = users.user_id()
+        biller_id = int(request.form["biller_ID"])
+        biller_info = customers.info(biller_id, user_id)
+        customer_id = int(request.form["customer_ID"])
+        customer_info = customers.info(customer_id, user_id)
+        invoice_number = request.form["invoice_number"]
+        product_one_id = int(request.form["product_1"])
+        product_two_id = int(request.form["product_2"])
+        product_three_id = int(request.form["product_3"])
+        product_four_id = int(request.form["product_4"])
+        product_five_id = int(request.form["product_5"])
+        product_one_info = products.info(product_one_id, user_id)
+        product_two_info = products.info(product_two_id, user_id)
+        product_three_info = products.info(product_three_id, user_id)
+        product_four_info = products.info(product_four_id, user_id)
+        product_five_info = products.info(product_five_id, user_id)
+        no_margin_sum = int(product_one_info[0][3]) + int(product_two_info[0][3]) + int(product_three_info[0][3]) + int(product_four_info[0][3]) + int(product_five_info[0][3])
+        margin = int(request.form["margin"])
+        sum = no_margin_sum * (margin / 100 + 1) 
+        print(product_five_info[0][0])
+        if invoices.new_invoice(biller_id, customer_id, form_time, invoice_number, product_one_id, product_two_id, product_three_id, product_four_id, product_five_id, no_margin_sum, margin, sum, user_id):
+            return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time)
+        return render_template("error.html", message="Laskun luonti ei onnistunut.")
 
 @app.route("/invoice_archive")
 def invoice_archive():
-    return render_template("/invoice_archive.html")
+    user_id = users.user_id()
+    #products_table = products.product_register(user_id)
+    #return render_template("/product_register.html", count=len(products_table), products_register=products_table)
+    invoices_table = invoices.invoice_archive(user_id)
+    return render_template("/invoice_archive.html", count=len(invoices_table), invoice_archive=invoices_table)
 
 @app.route("/to_do_list")
 def to_do_list():

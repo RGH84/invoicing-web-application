@@ -28,4 +28,9 @@ def customers_id(user_id):
     result = db.session.execute(sql, {"user_id": user_id})
     id_list = [row[0] for row in result.fetchall()]
     return id_list
+
+def info(biller_id, user_id):
+    sql = text("SELECT C.customer_name, C.address, C.phonenumber, C.business_id FROM customers C WHERE C.id=:biller_id AND C.user_id=:user_id AND C.visible=TRUE ORDER BY C.id")
+    result = db.session.execute(sql, {"biller_id": biller_id, "user_id": user_id})
+    return result.fetchall() 
     

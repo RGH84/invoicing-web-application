@@ -29,5 +29,23 @@ CREATE TABLE products (
     visible BOOLEAN DEFAULT TRUE
 );
 
+CREATE TABLE invoices (
+    id SERIAL PRIMARY KEY, 
+    biller_id INTEGER REFERENCES customers, 
+    customer_id INTEGER REFERENCES customers,
+    form_time TIMESTAMP,
+    invoice_number TEXT UNIQUE, 
+    product_one_id INTEGER REFERENCES products,
+    product_two_id INTEGER REFERENCES products,
+    product_three_id INTEGER REFERENCES products,
+    product_four_id INTEGER REFERENCES products,
+    product_five_id INTEGER REFERENCES products,
+    margin, INTEGER,
+    no_margin_sum INTEGER,
+    sum INTEGER,
+    user_id INTEGER REFERENCES users,
+    visible BOOLEAN DEFAULT TRUE
+);
+
 
 

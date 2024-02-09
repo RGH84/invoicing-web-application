@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>invoice</title>
+  </head>
+  <body>
+    {% if session.user_id %}
+    <p>Myyjä:</p>
+    {% for biller in biller_info %}
+    <p><i>Asiakkaan nimi:</i> {{ biller[0] }}</p>
+    <p><i>Osoite:</i> {{ biller[1] }}</p>
+    <p><i>Puhelinnumero:</i> {{ biller[2] }}</p>
+    <p><i>Y-tunnus:</i> {{ biller[3] }}</p>
+    {% endfor %}
+    <BR>
+    <p>Asiakas:</p>
+    {% for customer in customer_info %}
+    <p><i>Asiakkaan nimi:</i> {{ customer[0] }}</p>
+    <p><i>Osoite:</i> {{ customer[1] }}</p>
+    <p><i>Puhelinnumero:</i> {{ customer[2] }}</p>
+    <p><i>Y-tunnus:</i> {{ customer[3] }}</p>
+    {% endfor %}
+    <BR>
+    <p>Lasku on luotu: {{ form_time }}</p>
+    <BR>
+    <BR>
+    <p>Lasku numero: {{ invoice_number }}</p>
+    <BR>
+    <p>Tuotteet:</p>
+    {% for product in product_one_info %}
+    <p>{{ product[2] }} {{ product[0] }} {{ product[3] }} €</p>
+    {% endfor %}
+    {% for product in product_two_info %}
+    <p>{{ product[2] }} {{ product[0] }} {{ product[3] }} €</p>
+    {% endfor %}
+    {% for product in product_three_info %}
+    <p>{{ product[2] }} {{ product[0] }} {{ product[3] }} €</p>
+    {% endfor %}
+    {% for product in product_four_info %}
+    <p>{{ product[2] }} {{ product[0] }} {{ product[3] }} €</p>
+    {% endfor %}
+    {% for product in product_five_info %}
+    <p>{{ product[2] }} {{ product[0] }} {{ product[3] }} €</p>
+    {% endfor %}
+    <BR>
+    <hr>
+    <p>Katteeton summa: {{ no_margin_sum }} €</p>
+    <p>Lisäämme laskuun katetta: {{ margin }} %</p>
+    <p>Loppusumma: {{ sum }} lisäksi voi tulla alvit ym..</p>
+    <p>Maksun voi suorittaa tilille: 123654-74845641</p>
+    {% else %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
+    {% endif %}
+  </body> 
+</html> 
+
+

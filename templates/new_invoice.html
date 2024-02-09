@@ -6,9 +6,36 @@
   </head>
   <body>
     <h1>Uuden laskun luonti</h1>
-    <p>Sivustot ovat vielä kehitteillä. Tämä toiminto on vielä täysin kesken.</p>
-    <p>Täällä voit luoda uusia laskuja!</p>
+    {% if session.user_id %}
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin arvot. Kirjoita 0, jos et tiedä mitä kirjoittaa.</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
-    <nav><a href="/">Etusivulle</a></nav>
+    <form action="/new_invoice" method="post">
+    <p>Anna laskuttajan ID: <input type="text" name="biller_ID"></p>
+    <p>Anna asiakkaan ID: <input type="text" name="customer_ID"></p>
+    <p>Anna lakunumero (yksilöllinen): <input type="text" name="invoice_number"></p>
+    <p>Anna Tuote 1 ID: <input type="text" name="product_1"></p>
+    <p>Anna tuote 2 ID: <input type="text" name="product_2"></p>
+    <p>Anna tuote 3 ID: <input type="text" name="product_3"></p>
+    <p>Anna tuote 4 ID: <input type="text" name="product_4"></p>
+    <p>Anna tuote 5 ID: <input type="text" name="product_5"></p>
+    <p>Anna tuotteille ja palveluille kate prosentti: <input type="text" name="margin"></p>
+    <p>Jos lasku ei mene läpi, kokeile seuraavaa laskunumeroa, tai keksi iso laskunuumero. Laskunumerot ovat uniikkeja.</p>
+    <p>Kun painat tästä siirryt sivulle, jossa lasku näkyy ja lakun tiedot tallentuvat laskuarkistoon, tulosta tai tallenna lasku koneellesi ja lähetä sähköpostilla. Pääset takaisin laskunäkymästä selaimen takaisin näppäimestä.<input type="submit" value="Luo lasku"></p>
+    <hr>
+    </form>
+    <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
+    <nav><a href="/">Etusivulle</a></nav> 
+    {% else %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
+    {% endif %}
   </body> 
 </html> 
+
+
+
+
