@@ -147,19 +147,41 @@ def new_invoice():
         no_margin_sum = int(product_one_info[0][3]) + int(product_two_info[0][3]) + int(product_three_info[0][3]) + int(product_four_info[0][3]) + int(product_five_info[0][3])
         margin = int(request.form["margin"])
         sum = no_margin_sum * (margin / 100 + 1) 
-        print(product_five_info[0][0])
         if invoices.new_invoice(biller_id, customer_id, form_time, invoice_number, product_one_id, product_two_id, product_three_id, product_four_id, product_five_id, no_margin_sum, margin, sum, user_id):
             return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time)
         return render_template("error.html", message="Laskun luonti ei onnistunut.")
 
-@app.route("/invoice_archive")
+@app.route("/invoice_archive", methods=["GET", "POST"])
 def invoice_archive():
-    user_id = users.user_id()
-    #products_table = products.product_register(user_id)
-    #return render_template("/product_register.html", count=len(products_table), products_register=products_table)
-    invoices_table = invoices.invoice_archive(user_id)
-    return render_template("/invoice_archive.html", count=len(invoices_table), invoice_archive=invoices_table)
-
+    if request.method == "GET":
+        user_id = users.user_id()
+        invoices_table = invoices.invoice_archive(user_id)
+        return render_template("/invoice_archive.html", count=len(invoices_table), invoice_archive=invoices_table)
+    if request.method == "POST":
+        user_id = users.user_id()
+        invoice_number = request.form["invoice_number"]
+        invoice_info = invoices.info(invoice_number, user_id)
+        biller_id = invoice_info[0][2]
+        biller_info = customers.info(biller_id, user_id)
+        customer_id = invoice_info[0][3]
+        customer_info = customers.info(customer_id, user_id)
+        product_one_id = invoice_info[0][4]
+        product_two_id = invoice_info[0][5]
+        product_three_id = invoice_info[0][6]
+        product_four_id = invoice_info[0][7]
+        product_five_id = invoice_info[0][8]
+        product_one_info = products.info(product_one_id, user_id)
+        product_two_info = products.info(product_two_id, user_id)
+        product_three_info = products.info(product_three_id, user_id)
+        product_four_info = products.info(product_four_id, user_id)
+        product_five_info = products.info(product_five_id, user_id)
+        no_margin_sum = invoice_info[0][9]
+        margin = margin=invoice_info[0][10]
+        sum = sum=invoice_info[0][11]
+        form_time=invoice_info[0][1]
+        #Errorit
+        return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time)
+    
 @app.route("/to_do_list")
 def to_do_list():
     return render_template("/to_do_list.html")

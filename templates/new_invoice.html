@@ -9,7 +9,7 @@
     <h1>Uuden laskun luonti</h1>
     {% if session.user_id %}
     <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin arvot. Kirjoita 0, jos et tiedä mitä kirjoittaa.</p>
+    <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin arvot. Kirjoita 0, jos et tiedä mitä kirjoittaa. Tee myös itsellesi 0 tuote/palvelu, jota voit käyttää tuoterivillä, jos laskutettavaa on vähemmän.</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
     <form action="/new_invoice" method="post">
@@ -21,7 +21,7 @@
     <p>Anna tuote 3 ID: <input type="text" name="product_3"></p>
     <p>Anna tuote 4 ID: <input type="text" name="product_4"></p>
     <p>Anna tuote 5 ID: <input type="text" name="product_5"></p>
-    <p>Anna tuotteille ja palveluille kate prosentti: <input type="text" name="margin"></p>
+    <p>Anna tuotteille ja palveluille kateprosentti: <input type="text" name="margin"></p>
     <p>Jos lasku ei mene läpi, kokeile seuraavaa laskunumeroa, tai keksi iso laskunuumero. Laskunumerot ovat uniikkeja.</p>
     <p>Kun painat tästä siirryt sivulle, jossa lasku näkyy ja lakun tiedot tallentuvat laskuarkistoon, tulosta tai tallenna lasku koneellesi ja lähetä sähköpostilla. Pääset takaisin laskunäkymästä selaimen takaisin näppäimestä.<input type="submit" value="Luo lasku"></p>
     <hr>

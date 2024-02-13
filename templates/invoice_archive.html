@@ -8,17 +8,18 @@
   <body>
     <h1>Laskuarkisto</h1>
     <p>Sivustot ovat vielä kehitteillä. Tämä toiminto on vielä kesken.</p>
-    <p>Täällä voit tarkistella laskujasi!</p>
+    <p>Täällä voit tarkistella laskujasi! Sinulla on {{ count }} laskua.</p>
     <hr>
     <hr>
-    {% for customer in invoice_archive %}
-    <p><i>ID:</i> {{ customer[0] }}</p>
-    <p><i>Asiakkaan nimi:</i> {{ customer[1] }}</p>
-    <p><i>Osoite:</i> {{ customer[2] }}</p>
-    <p><i>Puhelinnumero:</i> {{ customer[3] }}</p>
-    <p><i>Y-tunnus:</i> {{ customer[4] }}</p>
+    {% for info in invoice_archive %}
+    <p><i>Laskunumero:</i> {{ info[0] }}, <i>Aika:</i> {{ info[1] }}, <i>Laskuttajan ID:</i> {{ info[2] }}, Asiakkaan ID:</i> {{ info[3] }}, <i>Summa:</i> {{ info[11] }}</p>
     <hr>
     {% endfor %}
+    <p>Mitä laskua haluat tutkia tarkemmin, kirjoita laskunumero alle. Pääset takaisin tähän näkymään selaimen takaisin painikkeesta.</p>
+    <form action="/invoice_archive" method="post">
+    <p><input type="text" name="invoice_number"></p>
+    <p><input type="submit" value="Etsi lasku"></p>
+    </form>
     <nav><a href="/">Etusivulle</a></nav>
   </body> 
 </html> 

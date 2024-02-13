@@ -25,7 +25,6 @@
     <BR>
     <p>Lasku on luotu: {{ form_time }}</p>
     <BR>
-    <BR>
     <p>Lasku numero: {{ invoice_number }}</p>
     <BR>
     <p>Tuotteet:</p>
@@ -48,7 +47,7 @@
     <hr>
     <p>Katteeton summa: {{ no_margin_sum }} €</p>
     <p>Lisäämme laskuun katetta: {{ margin }} %</p>
-    <p>Loppusumma: {{ sum }} lisäksi voi tulla alvit ym..</p>
+    <p>Loppusumma: {{ sum | round(2) }} € lisäksi voi tulla alvit ym..</p>
     <p>Maksun voi suorittaa tilille: 123654-74845641</p>
     {% else %}
     <h1>Tervetuloa JK laskutussovellukseen!</h1>

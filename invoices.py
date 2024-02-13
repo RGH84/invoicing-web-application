@@ -18,7 +18,25 @@ def invoice_archive(user_id):
     return result.fetchall() 
      
 
-#def info(biller_id, user_id):
- #   sql = text("SELECT C.customer_name, C.address, C.phonenumber, C.business_id FROM customers C WHERE C.id=:biller_id AND C.user_id=:user_id AND C.visible=TRUE ORDER BY C.id")
-  #  result = db.session.execute(sql, {"biller_id": biller_id, "user_id": user_id})
-   # return result.fetchall() 
+def info(invoice_number, user_id):
+    sql = text("""
+    SELECT 
+        invoice_number, 
+        form_time, 
+        biller_id, 
+        customer_id, 
+        product_one_id,
+        product_two_id,
+        product_three_id,
+        product_four_id,
+        product_five_id,
+        no_margin_sum, 
+        margin, 
+        sum
+    FROM 
+        invoices
+    WHERE 
+        visible = TRUE AND invoice_number=:invoice_number AND user_id=:user_id
+    """)
+    result = db.session.execute(sql, {"invoice_number": invoice_number, "user_id": user_id})
+    return result.fetchall() 
