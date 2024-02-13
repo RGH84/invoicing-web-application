@@ -156,9 +156,11 @@ def invoice_archive():
     if request.method == "GET":
         user_id = users.user_id()
         invoices_table = invoices.invoice_archive(user_id)
-        return render_template("/invoice_archive.html", count=len(invoices_table), invoice_archive=invoices_table)
+        invoice_numbers = invoices.numbers(user_id)
+        return render_template("/invoice_archive.html", count=len(invoices_table), invoice_archive=invoices_table, invoice_numbers=invoice_numbers)
     if request.method == "POST":
         user_id = users.user_id()
+        invoices_table = invoices.invoice_archive(user_id)
         invoice_number = request.form["invoice_number"]
         invoice_info = invoices.info(invoice_number, user_id)
         biller_id = invoice_info[0][2]
@@ -179,8 +181,8 @@ def invoice_archive():
         margin = margin=invoice_info[0][10]
         sum = sum=invoice_info[0][11]
         form_time=invoice_info[0][1]
-        #Errorit
-        return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time)
+        print(invoice_numbers)
+        return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time, invoice_numbers=invoice_numbers)
     
 @app.route("/to_do_list")
 def to_do_list():

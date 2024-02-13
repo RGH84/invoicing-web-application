@@ -40,3 +40,9 @@ def info(invoice_number, user_id):
     """)
     result = db.session.execute(sql, {"invoice_number": invoice_number, "user_id": user_id})
     return result.fetchall() 
+
+def numbers(user_id):
+    sql = text("SELECT invoice_number FROM invoices WHERE user_id=:user_id AND visible=TRUE ORDER BY id")
+    result = db.session.execute(sql, {"user_id": user_id})
+    numbers = [row[0] for row in result.fetchall()]
+    return numbers 

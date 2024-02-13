@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
+    {% if session.user_id %}
     <h1>Laskuarkisto</h1>
     <p>Sivustot ovat vielä kehitteillä. Tämä toiminto on vielä kesken.</p>
     <p>Täällä voit tarkistella laskujasi! Sinulla on {{ count }} laskua.</p>
@@ -16,10 +17,30 @@
     <hr>
     {% endfor %}
     <p>Mitä laskua haluat tutkia tarkemmin, kirjoita laskunumero alle. Pääset takaisin tähän näkymään selaimen takaisin painikkeesta.</p>
-    <form action="/invoice_archive" method="post">
-    <p><input type="text" name="invoice_number"></p>
-    <p><input type="submit" value="Etsi lasku"></p>
+    <form action="/invoice_archive" method="post" onsubmit="return check(this);">
+      <p><input type="text" name="invoice_number" placeholder="Laskun numero"></p>
+      <p><input type="submit" value="Etsi lasku"></p>
     </form>
+    <script>
+      var invoiceNumbers = {{ invoice_numbers | tojson }};
+      function check(form) {
+          if (form.invoice_number.value.trim() === "") {
+              alert("Anna laskun numero");
+              return false;
+          }
+          if (!invoiceNumbers.includes(form.invoice_number.value)) {
+              alert("Laskun numeroa ei löydy listalta");
+              return false;
+          }
+          return true;
+      }
+    </script>
+    {% else %}
+    <h1>Tervetuloa JK laskutussovellukseen!</h1>
+    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
+    <a href="/login">Kirjaudu sisään tästä</a>
+    <a href="/register">Luo uusi tunnus tästä</a>
+    {% endif %}
     <nav><a href="/">Etusivulle</a></nav>
   </body> 
 </html> 
