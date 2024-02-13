@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>invoice</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
     {% if session.user_id %}
