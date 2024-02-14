@@ -24,7 +24,7 @@ CREATE TABLE products (
     product_name TEXT, 
     type TEXT, 
     product_number TEXT, 
-    price TEXT, 
+    price INTEGER, 
     user_id INTEGER REFERENCES users,
     visible BOOLEAN DEFAULT TRUE
 );
@@ -40,7 +40,7 @@ CREATE TABLE invoices (
     product_three_id INTEGER REFERENCES products,
     product_four_id INTEGER REFERENCES products,
     product_five_id INTEGER REFERENCES products,
-    margin, INTEGER,
+    margin INTEGER,
     no_margin_sum INTEGER,
     sum INTEGER,
     user_id INTEGER REFERENCES users,
