@@ -7,11 +7,21 @@
   </head>
   <body>
     <h1>Kirjaudu sisään!</h1>
-    <form action="/login" method="post">
+    <form action="/login" method="post" onsubmit="return check(this)">
     <p>Tunnus: <input type="text" name="username"></p>
     <p>Salasana: <input type="password" name="password"></p>
     <p><input type="submit" value="Kirjaudu"></p>
     </form>
+    <script>
+      var user_names = {{ usernames | tojson }};
+      function check(form) {
+          if (!user_names.includes(form.username.value)) {
+              alert("Käyttäjänimeä ei ole olemassa!");
+              return false;
+          }
+          return true;
+      }
+      </script>
   </body>
 </html>
 

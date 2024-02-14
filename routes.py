@@ -17,7 +17,8 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        usernames = users.usernames()
+        return render_template("login.html", usernames=usernames)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -34,7 +35,8 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html")
+        usernames = users.usernames()
+        return render_template("register.html", usernames=usernames)
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
@@ -162,6 +164,9 @@ def invoice_archive():
         user_id = users.user_id()
         invoices_table = invoices.invoice_archive(user_id)
         invoice_number = request.form["invoice_number"]
+        invoice_numbers = invoices.numbers(user_id)
+        if invoice_number not in invoice_numbers:
+            return render_template("error.html", message="Tarkista laskun numero.")
         invoice_info = invoices.info(invoice_number, user_id)
         biller_id = invoice_info[0][2]
         biller_info = customers.info(biller_id, user_id)

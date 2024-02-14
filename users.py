@@ -29,3 +29,10 @@ def register(username, password):
 
 def user_id():
     return session.get("user_id",0)
+
+def usernames():
+    sql = text("SELECT username FROM users ORDER BY id")
+    result = db.session.execute(sql)
+    users = [row[0] for row in result.fetchall()]
+    return users
+

@@ -33,7 +33,7 @@ CREATE TABLE invoices (
     id SERIAL PRIMARY KEY, 
     biller_id INTEGER REFERENCES customers, 
     customer_id INTEGER REFERENCES customers,
-    form_time TIMESTAMP,
+    form_time TEXT,
     invoice_number TEXT UNIQUE, 
     product_one_id INTEGER REFERENCES products,
     product_two_id INTEGER REFERENCES products,

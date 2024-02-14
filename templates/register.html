@@ -8,12 +8,42 @@
   <body>
     <h1>Tee uusi käyttäjätunnus!</h1>
     <p>Käyttäjätunnuksen ja salasanan max pituus on 20 merkkiä ja min 4 merkkiä.</p>
-    <form action="/register" method="post">
+    <form action="/register" method="post" onsubmit="return check(this)">
     <p>Tunnus: <input type="text" name="username"></p>
     <p>Salasana: <input type="password" name="password1"></p>
     <p>Salasana uudestaan: <input type="password" name="password2"></p>
     <p><input type="submit" value="Luo tunnus"></p>
     </form>
+    <script>
+      var user_names = {{ usernames | tojson }};
+      function check(form) {
+          if (form.username.value.length > 20) {
+              alert("Käyttäjänimi on liian pitkä");
+              return false;
+          }
+          if (form.username.value.length < 4) {
+              alert("Käyttäjänimi on liian lyhyt");
+              return false;
+          }
+          if (form.password1.value.length < 4) {
+              alert("Salasana on liian lyhyt");
+              return false;
+          }
+          if (form.password1.value.length > 20) {
+              alert("Salasana on liian pitkä");
+              return false;
+          }
+          if (form.password1.value != form.password2.value) {
+              alert("Salasanat eroavat toisistaan");
+              return false;
+          }
+          if (user_names.includes(form.username.value)) {
+              alert("Käyuttäjänimi on jo käytössä!");
+              return false;
+          }
+          return true;
+      }
+      </script>
   </body>
 </html>
 
