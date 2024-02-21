@@ -78,13 +78,15 @@ def customer_register():
 @app.route("/remove_customer", methods=["GET", "POST"])
 def remove_customer():
     if request.method == "GET":
-        return render_template("remove_customer.html")
+        user_id = users.user_id()
+        customers_id = customers.customers_id(user_id)
+        return render_template("remove_customer.html", customers_id=customers_id)
     if request.method == "POST":
         id = int(request.form["ID"])
         user_id = users.user_id()
         customers_id = customers.customers_id(user_id)
         if id in customers_id and customers.remove_customer(id):
-                return render_template("approve.html", message="Asiakkaan poisto onnistui.")
+                return render_template("remove_customer.html", customers_id=customers_id)
         return render_template("error.html", message="Asiakkaan poisto ei onnistunut, tarkista ID.")
 
 @app.route("/new_product", methods=["GET", "POST"])
@@ -114,14 +116,16 @@ def product_register():
 @app.route("/remove_product", methods=["GET", "POST"])
 def remove_product():
     if request.method == "GET":
-        return render_template("remove_product.html")
+        user_id = users.user_id()
+        products_id = products.products_id(user_id)
+        return render_template("remove_product.html", products_id=products_id)
     if request.method == "POST":
         id = int(request.form["ID"])
         user_id = users.user_id()
         products_id = products.products_id(user_id)
         if id in products_id and products.remove_product(id):
-            return render_template("approve.html", message="Tuotteen poisto onnistui.")
-        return render_template("error.html", message="Tuotteen poisto ei onnistunut, tarkista ID.")
+            return render_template("remove_product.html", products_id=products_id)
+        return render_template("error.html", message="Tuotteen poistaminen ei onnistunut")
      
 @app.route("/new_invoice", methods=["GET", "POST"])
 def new_invoice():
@@ -186,7 +190,6 @@ def invoice_archive():
         margin = margin=invoice_info[0][10]
         sum = sum=invoice_info[0][11]
         form_time=invoice_info[0][1]
-        print(invoice_numbers)
         return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time, invoice_numbers=invoice_numbers)
     
 @app.route("/to_do_list")

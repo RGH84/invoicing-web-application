@@ -11,13 +11,50 @@
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Täällä voit luoda uusia tuotteitaja palveluita!</p>
     <p>Kirjoita joka kenttäään jotakin. Max pituus 20 merkkiä min 1 merkki. Käytä esim. 0, jos ei tiedossa</p>
-    <form action="/new_product" method="post">
+    <form action="/new_product" method="post" onsubmit="return check(this);">
     <p>Tuotteen/palvelun nimi: <input type="text" name="product_name"></p>
     <p>Tyyppi: <input type="text" name="type"></p>
     <p>Tuotenumero/tunnus: <input type="text" name="product_number"></p>
     <p>Hinta: <input type="text" name="price"></p>
     <input type="submit" value="Luo tuote">
     </form>
+    <script>
+      function check(form) {
+          if (form.product_name.value.length > 20) {
+              alert("Tuotteen nimi on liian pitkä");
+              return false;
+          }
+          if (form.product_name.value.length < 1) {
+              alert("Tuotteen nimi on liian lyhyt");
+              return false;
+          }
+          if (form.type.value.length < 1) {
+              alert("Tyyppi on liian lyhyt");
+              return false;
+          }
+          if (form.type.value.length > 20) {
+              alert("Tyyppi on liian pitkä");
+              return false;
+          }
+          if (form.product_number.value.length > 20) {
+              alert("Tuotenumero on liian pitkä");
+              return false;
+          }
+          if (form.product_number.value.length < 1) {
+              alert("Tuotenumero on liian lyhyt");
+              return false;
+          }
+          if (form.price.value.length > 20) {
+              alert("Hinta on liian pitkä");
+              return false;
+          }
+          if (form.price.value.length < 1) {
+              alert("Hinta on liian lyhyt");
+              return false;
+          }
+          return true;
+      }
+    </script>
     <hr>
     <nav><a href="/new_product">Uusi tuote</a></nav>
     <nav><a href="/">Etusivulle</a></nav>

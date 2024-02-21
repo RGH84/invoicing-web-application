@@ -9,7 +9,7 @@
     <h1>Uuden laskun luonti</h1>
     {% if session.user_id %}
     <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin arvot. Kirjoita 0, jos et tiedä mitä kirjoittaa. Tee myös itsellesi 0 tuote/palvelu, jota voit käyttää tuoterivillä, jos laskutettavaa on vähemmän.</p>
+    <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin olemassa olevat ID:t. Tee itsellesi 0 tuote/palvelu, jota voit käyttää tuoterivillä, jos laskutettavaa on vähemmän. HUOM! Tee myös omista tiedoistasi asiakas, joka tulee laskuttajaksi ensimmäiselle riville.</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
     <form action="/new_invoice" method="post">

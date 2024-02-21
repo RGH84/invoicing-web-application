@@ -11,13 +11,50 @@
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Täällä voit luoda uuden asiakkaan!</p>
     <p>Kirjoita joka kenttäään jotakin. Max pituus 20 merkkiä min 1 merkki. Käytä esim. 0, jos ei tiedossa</p>
-    <form action="/new_customer" method="post">
+    <form action="/new_customer" method="post" onsubmit="return check(this);">
     <p>Asiakkaan/yrityksen nimi: <input type="text" name="customer_name"></p>
     <p>Osoite: <input type="text" name="address"></p>
     <p>Puhelinnumero: <input type="text" name="phonenumber"></p>
     <p>Y-tunnus: <input type="text" name="business_id"></p>
     <input type="submit" value="Luo asiakas">
     </form>
+    <script>
+      function check(form) {
+          if (form.customer_name.value.length > 20) {
+              alert("Asiakkaan nimi on liian pitkä");
+              return false;
+          }
+          if (form.customer_name.value.length < 1) {
+              alert("Asiakkaan nimi on liian lyhyt");
+              return false;
+          }
+          if (form.address.value.length < 1) {
+              alert("Osoite on liian lyhyt");
+              return false;
+          }
+          if (form.address.value.length > 20) {
+              alert("Osoite on liian pitkä");
+              return false;
+          }
+          if (form.phonenumber.value.length > 20) {
+              alert("Puhelinnumero on liian pitkä");
+              return false;
+          }
+          if (form.phonenumber.value.length < 1) {
+              alert("Puhelinnumero on liian lyhyt");
+              return false;
+          }
+          if (form.business_id.value.length > 20) {
+              alert("Y-tunnus on liian pitkä");
+              return false;
+          }
+          if (form.business_id.value.length < 1) {
+              alert("Y-tunnus on liian lyhyt");
+              return false;
+          }
+          return true;
+      }
+    </script>
     <hr>
     <nav><a href="/new_customer">Uusi asiakas</a></nav>
     <nav><a href="/">Etusivulle</a></nav>

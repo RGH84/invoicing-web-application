@@ -12,10 +12,25 @@
     <p>Täällä voit poistaa tuotteita/palveluita!</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
-    <form action="/remove_product" method="post">
-    <p>Anna poistettavan tuotteen/palvelun ID: <input type="text" name="ID"></p>
+    <form action="/remove_product" method="post" onsubmit="return check(this);">
+    <p>Anna poistettavan tuotteen/palvelun ID: <input type="number" name="ID"></p>
     <p><input type="submit" value="Poista tuote/palvelu"></p>
     </form>
+    <script>
+      var productId = {{ products_id | tojson }};
+      function check(form) {
+          if (form.ID.value.trim() === "") {
+              alert("Anna ID numero");
+              return false;
+          }
+          if (!productId.includes(Number(form.ID.value))) {
+              alert("Tuotetta ei löydy listalta");
+              return false;
+          }
+          alert("Tuotteen poisto onnistui!");
+          return true;
+      }
+  </script>
     <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
     <nav><a href="/">Etusivulle</a></nav> 
     {% else %}

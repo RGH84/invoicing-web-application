@@ -12,10 +12,25 @@
     <p>Täällä voit voit poistaa asiakkaan!</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
-    <form action="/remove_customer" method="post">
-    <p>Anna poistettavan asiakkaan ID: <input type="text" name="ID"></p>
+    <form action="/remove_customer" method="post" onsubmit="return check(this);">
+    <p>Anna poistettavan asiakkaan ID: <input type="number" name="ID"></p>
     <p><input type="submit" value="Poista asiakas"></p>
     </form>
+    <script>
+      var customerId = {{ customers_id | tojson }};
+      function check(form) {
+          if (form.ID.value.trim() === "") {
+              alert("Anna ID numero");
+              return false;
+          }
+          if (!customerId.includes(Number(form.ID.value))) {
+              alert("Asiakasta ei löydy listalta");
+              return false;
+          }
+          alert("Asiakkaan poisto onnistui!");
+          return true;
+      }
+  </script>
     <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
     <nav><a href="/">Etusivulle</a></nav> 
     {% else %}
@@ -26,3 +41,4 @@
     {% endif %}
   </body> 
 </html> 
+
