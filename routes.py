@@ -130,7 +130,12 @@ def remove_product():
 @app.route("/new_invoice", methods=["GET", "POST"])
 def new_invoice():
     if request.method == "GET":
-        return render_template("/new_invoice.html")
+        user_id = users.user_id()
+        products_id = products.products_id(user_id)
+        customers_id = customers.customers_id(user_id)
+        invoice_numbers = invoices.numbers(user_id)
+        print(invoice_numbers)
+        return render_template("/new_invoice.html", products_id=products_id, customers_id=customers_id, invoice_numbers=invoice_numbers)
     if request.method == "POST":
         create_time = datetime.now()
         form_time = create_time.strftime("%d-%m-%Y %H:%M:%S")

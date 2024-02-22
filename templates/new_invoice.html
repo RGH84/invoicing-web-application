@@ -12,20 +12,97 @@
     <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin olemassa olevat ID:t. Tee itsellesi 0 tuote/palvelu, jota voit käyttää tuoterivillä, jos laskutettavaa on vähemmän. HUOM! Tee myös omista tiedoistasi asiakas, joka tulee laskuttajaksi ensimmäiselle riville.</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
-    <form action="/new_invoice" method="post">
-    <p>Anna laskuttajan ID: <input type="text" name="biller_ID"></p>
-    <p>Anna asiakkaan ID: <input type="text" name="customer_ID"></p>
+    <form action="/new_invoice" method="post" onsubmit="return check(this);">
+    <p>Anna laskuttajan ID: <input type="number" name="biller_ID"></p>
+    <p>Anna asiakkaan ID: <input type="number" name="customer_ID"></p>
     <p>Anna laskunumero (yksilöllinen): <input type="text" name="invoice_number"></p>
     <p>Anna Tuote 1 ID: <input type="text" name="product_1"></p>
     <p>Anna tuote 2 ID: <input type="text" name="product_2"></p>
     <p>Anna tuote 3 ID: <input type="text" name="product_3"></p>
     <p>Anna tuote 4 ID: <input type="text" name="product_4"></p>
     <p>Anna tuote 5 ID: <input type="text" name="product_5"></p>
-    <p>Anna tuotteille ja palveluille kateprosentti: <input type="text" name="margin"></p>
+    <p>Anna tuotteille ja palveluille kateprosentti: <input type="number" name="margin"></p>
     <p>Jos lasku ei mene läpi, kokeile seuraavaa laskunumeroa, tai keksi iso laskunumero. Laskunumerot ovat uniikkeja. Tarkista myös, että ID:t ovat oikeita</p>
     <p>Kun painat tästä siirryt sivulle, jossa lasku näkyy ja laskun tiedot tallentuvat laskuarkistoon, tulosta tai tallenna lasku koneellesi ja lähetä sähköpostilla. Pääset takaisin laskunäkymästä selaimen takaisin näppäimestä.<input type="submit" value="Luo lasku"></p>
     <hr>
     </form>
+    <script>
+      var customerId = {{ customers_id | tojson }};
+      var invoiceNumbers = {{ invoice_numbers | tojson }};
+      var productId = {{ products_id | tojson }};
+      function check(form) {
+          if (form.biller_ID.value.trim() === "") {
+              alert("Anna laskuttajan ID numero");
+              return false;
+          }
+          if (form.customer_ID.value.trim() === "") {
+              alert("Anna asiakkaan ID numero");
+              return false;
+          }
+          if (form.invoice_number.value.trim() === "") {
+              alert("Anna laskunumero");
+              return false;
+          }
+          if (form.product_1.value.trim() === "") {
+              alert("Tuote 1 ID puuttuu");
+              return false;
+          }
+          if (form.product_2.value.trim() === "") {
+              alert("Tuote 2 ID puuttuu");
+              return false;
+          }
+          if (form.product_3.value.trim() === "") {
+              alert("Tuote 3 ID puuttuu");
+              return false;
+          }
+          if (form.product_4.value.trim() === "") {
+              alert("Tuote 4 ID puuttuu");
+              return false;
+          }
+          if (form.product_5.value.trim() === "") {
+              alert("Tuote 5 ID puuttuu");
+              return false;
+          }
+          if (form.margin.value.trim() === "") {
+              alert("Kateprosentti puuttuu");
+              return false;
+          }
+          if (!customerId.includes(Number(form.biller_ID.value))) {
+              alert("Laskuttajaa ei löydy listalta");
+              return false;
+          }
+          if (!customerId.includes(Number(form.customer_ID.value))) {
+              alert("Asiakasta ei löydy listalta");
+              return false;
+          }
+          if (invoiceNumbers.includes(form.invoice_number.value)) {
+              alert("Laskunnumero on jo käytössä");
+              return false;
+          }
+          if (!productId.includes(Number(form.product_1.value))) {
+              alert("Tuotetta 1 ei löydy listalta");
+              return false;
+          }
+          if (!productId.includes(Number(form.product_2.value))) {
+              alert("Tuotetta 2 ei löydy listalta");
+              return false;
+          }
+          if (!productId.includes(Number(form.product_3.value))) {
+              alert("Tuotetta 3 ei löydy listalta");
+              return false;
+          }
+          if (!productId.includes(Number(form.product_4.value))) {
+              alert("Tuotetta 4 ei löydy listalta");
+              return false;
+          }
+          if (!productId.includes(Number(form.product_5.value))) {
+              alert("Tuotetta 5 ei löydy listalta");
+              return false;
+          }
+          alert("Laskun luonti pitäisi onnistua näillä tiedoilla, saat erillisen virheviestin, jos se ei onnistunutkaan! Pääset takaisin laskunäkymästä selaimen takaisin painikkeella.");
+          return true;
+      }
+  </script>
     <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
     <nav><a href="/">Etusivulle</a></nav> 
     {% else %}
@@ -36,6 +113,8 @@
     {% endif %}
   </body> 
 </html> 
+
+
 
 
 
