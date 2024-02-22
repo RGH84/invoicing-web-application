@@ -15,8 +15,9 @@
     <p>Tuotteen/palvelun nimi: <input type="text" name="product_name"></p>
     <p>Tyyppi: <input type="text" name="type"></p>
     <p>Tuotenumero/tunnus: <input type="text" name="product_number"></p>
-    <p>Hinta: <input type="text" name="price"></p>
+    <p>Hinta: <input type="number" name="price"></p>
     <input type="submit" value="Luo tuote">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <script>
       function check(form) {
@@ -52,6 +53,7 @@
               alert("Hinta on liian lyhyt");
               return false;
           }
+          alert("Tuotteen/palvelun luonti onnistui todennäköisesti, jos jotain meni vielä pieleen, saat erillisen virheviestin.");
           return true;
       }
     </script>

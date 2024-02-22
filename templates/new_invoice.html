@@ -22,6 +22,7 @@
     <p>Anna tuote 4 ID: <input type="text" name="product_4"></p>
     <p>Anna tuote 5 ID: <input type="text" name="product_5"></p>
     <p>Anna tuotteille ja palveluille kateprosentti: <input type="number" name="margin"></p>
+    <p><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></p>
     <p>Jos lasku ei mene läpi, kokeile seuraavaa laskunumeroa, tai keksi iso laskunumero. Laskunumerot ovat uniikkeja. Tarkista myös, että ID:t ovat oikeita</p>
     <p>Kun painat tästä siirryt sivulle, jossa lasku näkyy ja laskun tiedot tallentuvat laskuarkistoon, tulosta tai tallenna lasku koneellesi ja lähetä sähköpostilla. Pääset takaisin laskunäkymästä selaimen takaisin näppäimestä.<input type="submit" value="Luo lasku"></p>
     <hr>

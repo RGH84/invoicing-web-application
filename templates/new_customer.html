@@ -12,11 +12,12 @@
     <p>Täällä voit luoda uuden asiakkaan!</p>
     <p>Kirjoita joka kenttäään jotakin. Max pituus 20 merkkiä min 1 merkki. Käytä esim. 0, jos ei tiedossa</p>
     <form action="/new_customer" method="post" onsubmit="return check(this);">
-    <p>Asiakkaan/yrityksen nimi: <input type="text" name="customer_name"></p>
-    <p>Osoite: <input type="text" name="address"></p>
-    <p>Puhelinnumero: <input type="text" name="phonenumber"></p>
-    <p>Y-tunnus: <input type="text" name="business_id"></p>
-    <input type="submit" value="Luo asiakas">
+      <p>Asiakkaan/yrityksen nimi: <input type="text" name="customer_name"></p>
+      <p>Osoite: <input type="text" name="address"></p>
+      <p>Puhelinnumero: <input type="text" name="phonenumber"></p>
+      <p>Y-tunnus: <input type="text" name="business_id"></p>
+      <input type="submit" value="Luo asiakas">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <script>
       function check(form) {
@@ -52,6 +53,7 @@
               alert("Y-tunnus on liian lyhyt");
               return false;
           }
+          alert("Asiakkaan luonti onnistui todennäköisesti, jos jotain meni vielä pieleen, saat erillisen virheviestin.");
           return true;
       }
     </script>

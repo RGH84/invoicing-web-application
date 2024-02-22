@@ -15,6 +15,7 @@
     <form action="/remove_customer" method="post" onsubmit="return check(this);">
     <p>Anna poistettavan asiakkaan ID: <input type="number" name="ID"></p>
     <p><input type="submit" value="Poista asiakas"></p>
+    <p><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></p>
     </form>
     <script>
       var customerId = {{ customers_id | tojson }};

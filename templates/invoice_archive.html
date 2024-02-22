@@ -20,6 +20,7 @@
     <form action="/invoice_archive" method="post" onsubmit="return check(this);">
       <p><input type="text" name="invoice_number" placeholder="Laskun numero"></p>
       <p><input type="submit" value="Etsi lasku"></p>
+      <p><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></p>
     </form>
     <script>
       var invoiceNumbers = {{ invoice_numbers | tojson }};
