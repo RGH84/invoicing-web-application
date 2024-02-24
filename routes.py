@@ -117,7 +117,7 @@ def new_product():
         if len(product_name) < 1 or len(type) < 1 or len(product_number) < 1 or len(price) < 1:
             return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
         if products.new_product(product_name, type, product_number, price, user_id):
-            return render_template("/new_customer.html", csrf_token=session["csrf_token"])
+            return render_template("/new_product.html", csrf_token=session["csrf_token"])
         return render_template("error.html", message="Tuotteen luonti ei onnistunut")
     
 @app.route("/product_register")
