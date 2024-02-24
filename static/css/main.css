@@ -1,6 +1,101 @@
 body {
-    margin: auto;
-    max-width: 45em;
-    font-family: 'Helvetica', 'Arial', sans-serif;
+  margin: auto;
+  max-width: 45em;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  background: orange;
 }
+
+nav li {
+  display: inline-block;
+  padding: .5em .5em;
+  background: orange;
+  border-radius: .5em;
+  margin: .2em;
+  border: 1px solid #f8f8f8; /* Vaalea reuna */
+}
+
+.header {
+  background: yellowgreen;
+  font-weight: bold;
+  padding: 2em 1em;
+  font-size: 1.5em;
+  border-radius: .5em
+}
+
+nav ul {
+    padding: 0;
+    margin: .5em;
+    text-align: center;
+}
+
+.content {
+    background: yellowgreen;
+    padding: 1.5em 2em;
+    border-radius: .5em
+ }
+ 
+ nav  {
+    background: yellow;
+    border-radius: .5em
+  }
+
+  nav li a {
+    text-decoration: none;
+    color: #000;
+}
+
+nav li:hover {
+    background-color: rgb(226, 226, 226);
+}
+
+body a {
+    text-decoration: none;
+    color: #000;
+  }
+
+.button-style {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+    background-color: orange;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s;
+  }
+  
+.button-style:hover {
+    background-color: rgb(226, 226, 226);
+  }
+
+form {
+    display: grid;
+    max-width: 45em;
+    grid-template-columns: 10em 10em;
+    grid-row-gap: .3em;
+
+}
+
+form label, input {
+    margin: auto 0;
+}
+
+.list-block {
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    margin-bottom: 15px; 
+    background-color: yellow;
+    border-radius: .5em
+  }
+  
+.list-block p {
+    margin: 5px 0;
+  }
+
+  .invoice {
+    background: white;
+    padding: 1.5em 2em;
+    border-radius: .5em
+ }
+
 

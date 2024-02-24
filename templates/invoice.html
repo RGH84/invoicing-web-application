@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>invoice</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  </head>
-  <body>
-    {% if session.user_id %}
+<html lang="FI">
+<head>
+  <title>invoice</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/sent_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="invoice">
     <p>Myyjä:</p>
     {% for biller in biller_info %}
     <p><i>Asiakkaan nimi:</i> {{ biller[0] }}</p>
@@ -49,13 +68,18 @@
     <p>Lisäämme laskuun katetta: {{ margin }} %</p>
     <p>Loppusumma: {{ sum | round(2) }} € lisäksi voi tulla alvit ym..</p>
     <p>Maksun voi suorittaa tilille: 123654-74845641</p>
-    {% else %}
-    <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
-    <a href="/login">Kirjaudu sisään tästä</a>
-    <a href="/register">Luo uusi tunnus tästä</a>
-    {% endif %}
-  </body> 
-</html> 
-
-
+  </div>
+  {% else %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <br>
+  <div class="content">
+    <h2>Tervetuloa JK laskutussovellukseen!</h2>
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+    <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+  </div>
+  {% endif %}
+</body>
+</html>

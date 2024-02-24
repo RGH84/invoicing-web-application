@@ -1,71 +1,99 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>New product</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  </head>
-  <body>
-    {% if session.user_id %}
-    <h1>Uuden tuotteen tai palvelun luonti</h1>
+<html lang="FI">
+<head>
+  <title>New product</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/sent_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h2>Uuden tuotteen tai palvelun luonti</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit luoda uusia tuotteitaja palveluita!</p>
+    <p>Täällä voit luoda uusia tuotteita ja palveluita!</p>
+    <p>Tee itsellesi myös nollatuote!</p>
     <p>Kirjoita joka kenttäään jotakin. Max pituus 20 merkkiä min 1 merkki. Käytä esim. 0, jos ei tiedossa</p>
     <form action="/new_product" method="post" onsubmit="return check(this);">
-    <p>Tuotteen/palvelun nimi: <input type="text" name="product_name"></p>
-    <p>Tyyppi: <input type="text" name="type"></p>
-    <p>Tuotenumero/tunnus: <input type="text" name="product_number"></p>
-    <p>Hinta: <input type="number" name="price"></p>
-    <input type="submit" value="Luo tuote">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="product_name">Tuote/palvelu nimi:</label>
+      <input type="text" name="product_name" id="product_name">
+      <label for="type">Tyyppi:</label>
+      <input type="text" name="type" id="type">
+      <label for="product_number">Tuotenumero/tunnus:</label>
+      <input type="text" name="product_number" id="product_number">
+      <label for="price">Hinta:</label>
+      <input type="number" name="price" id="price">
+      <input type="submit" class="button-style" value="Luo tuote">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <script>
-      function check(form) {
-          if (form.product_name.value.length > 20) {
-              alert("Tuotteen nimi on liian pitkä");
-              return false;
-          }
-          if (form.product_name.value.length < 1) {
-              alert("Tuotteen nimi on liian lyhyt");
-              return false;
-          }
-          if (form.type.value.length < 1) {
-              alert("Tyyppi on liian lyhyt");
-              return false;
-          }
-          if (form.type.value.length > 20) {
-              alert("Tyyppi on liian pitkä");
-              return false;
-          }
-          if (form.product_number.value.length > 20) {
-              alert("Tuotenumero on liian pitkä");
-              return false;
-          }
-          if (form.product_number.value.length < 1) {
-              alert("Tuotenumero on liian lyhyt");
-              return false;
-          }
-          if (form.price.value.length > 20) {
-              alert("Hinta on liian pitkä");
-              return false;
-          }
-          if (form.price.value.length < 1) {
-              alert("Hinta on liian lyhyt");
-              return false;
-          }
-          alert("Tuotteen/palvelun luonti onnistui todennäköisesti, jos jotain meni vielä pieleen, saat erillisen virheviestin.");
-          return true;
-      }
+    function check(form) {
+        if (form.product_name.value.length > 20) {
+            alert("Tuotteen nimi on liian pitkä");
+            return false;
+        }
+        if (form.product_name.value.length < 1) {
+            alert("Tuotteen nimi on liian lyhyt");
+            return false;
+        }
+        if (form.type.value.length < 1) {
+            alert("Tyyppi on liian lyhyt");
+            return false;
+        }
+        if (form.type.value.length > 20) {
+            alert("Tyyppi on liian pitkä");
+            return false;
+        }
+        if (form.product_number.value.length > 20) {
+            alert("Tuotenumero on liian pitkä");
+            return false;
+        }
+        if (form.product_number.value.length < 1) {
+            alert("Tuotenumero on liian lyhyt");
+            return false;
+        }
+        if (form.price.value.length > 20) {
+            alert("Hinta on liian pitkä");
+            return false;
+        }
+        if (form.price.value.length < 1) {
+            alert("Hinta on liian lyhyt");
+            return false;
+        }
+        alert(
+            "Tuotteen/palvelun luonti onnistui todennäköisesti, jos jotain meni vielä pieleen, saat erillisen virheviestin.");
+        return true;
+    }
     </script>
-    <hr>
-    <nav><a href="/new_product">Uusi tuote</a></nav>
-    <nav><a href="/">Etusivulle</a></nav>
-    {% else %}
-    <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
-    <a href="/login">Kirjaudu sisään tästä</a>
-    <a href="/register">Luo uusi tunnus tästä</a>
-    {% endif %}
-  </body> 
-</html> 
-
+</div>
+{% else %}
+<div class="header">
+    <h1>JK Invoicing Web Application</h1>
+</div>
+<br>
+<div class="content">
+  <h2>Tervetuloa JK laskutussovellukseen!</h2>
+  <p>Sivustot ovat vielä kehitteillä.</p>
+  <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+  <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+</div>
+{% endif %}
+</body>
+</html>

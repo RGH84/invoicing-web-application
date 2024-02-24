@@ -1,122 +1,155 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>New invoice</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  </head>
-  <body>
-    <h1>Uuden laskun luonti</h1>
-    {% if session.user_id %}
-    <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin olemassa olevat ID:t. Tee itsellesi 0 tuote/palvelu, jota voit käyttää tuoterivillä, jos laskutettavaa on vähemmän. HUOM! Tee myös omista tiedoistasi asiakas, joka tulee laskuttajaksi ensimmäiselle riville.</p>
-    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+<html lang="FI">
+<head>
+  <title>New invoice</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+{% if session.user_id %}
+<div class="header">
+  <h1>JK Invoicing Web Application</h1>
+</div>
+<nav>
+  <ul>
+    <li><a href="/new_customer">Luo uusi asiakas</a></li>
+    <li><a href="/customer_register">Asiakasrekisteri</a></li>
+    <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+    <li><a href="/product_register">Tuoterekisteri</a></li>
+    <li><a href="/new_invoice">Luo uusi lasku</a></li>
+    <li><a href="/invoice_archive">Laskuarkisto</a></li>
+    <li><a href="/to_do_list">To Do List</a></li>
+    <li><a href="/sent_message">Lähetä viesti</a></li>
+    <li><a href="/">Etusivulle</a></li>
+    <li><a href="/logout">Kirjaudu ulos</a></li>
+  </ul>
+</nav>
+<div class="content">
+  <h2>Uuden laskun luonti</h2>
+  <p>Sivustot ovat vielä kehitteillä.</p>
+  <p>Täällä voit voit luoda laskuja! Syötä kaikkiin kenttiin olemassa olevat ID:t. Tee itsellesi 0 tuote/palvelu,
+     jota voit käyttää tuoterivillä, jos laskutettavaa on vähemmän. HUOM! Tee myös omista tiedoistasi asiakas,
+     joka tulee laskuttajaksi ensimmäiselle riville.</p>
+  <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+  <p>Kun painat luo lasku painiketta, siirryt sivulle, jossa lasku näkyy ja laskun tiedot tallentuvat
+    laskuarkistoon. Tulosta tai tallenna lasku koneellesi ja lähetä sähköpostilla.</p>
+  <hr>
+  <form action="/new_invoice" method="post" onsubmit="return check(this);">
+    <label for="biller_ID">Anna laskuttajan ID:</label>
+    <input type="number" name="biller_ID" id="biller_ID">
+    <label for="customer_ID">Anna asiakkaan ID:</label>
+    <input type="number" name="customer_ID" id="customer_ID">
+    <label for="invoice_number">Anna laskunumero:</label>
+    <input type="text" name="invoice_number" id="invoice_number">
+    <label for="product_1">Anna tuote 1 ID:</label>
+    <input type="text" name="product_1" id="product_1">
+    <label for="product_2">Anna tuote 2 ID:</label>
+    <input type="text" name="product_2" id="product_2">
+    <label for="product_3">Anna tuote 3 ID:</label>
+    <input type="text" name="product_3" id="product_3">
+    <label for="product_4">Anna tuote 4 ID:</label>
+    <input type="text" name="product_4" id="product_4">
+    <label for="product_5">Anna tuote 5 ID:</label>
+    <input type="text" name="product_5" id="product_5">
+    <label for="margin">Anna kateprosentti:</label>
+    <input type="number" name="margin" id="margin">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input type="submit" value="Luo lasku" class="button-style">
+  </form>
     <hr>
-    <form action="/new_invoice" method="post" onsubmit="return check(this);">
-    <p>Anna laskuttajan ID: <input type="number" name="biller_ID"></p>
-    <p>Anna asiakkaan ID: <input type="number" name="customer_ID"></p>
-    <p>Anna laskunumero (yksilöllinen): <input type="text" name="invoice_number"></p>
-    <p>Anna Tuote 1 ID: <input type="text" name="product_1"></p>
-    <p>Anna tuote 2 ID: <input type="text" name="product_2"></p>
-    <p>Anna tuote 3 ID: <input type="text" name="product_3"></p>
-    <p>Anna tuote 4 ID: <input type="text" name="product_4"></p>
-    <p>Anna tuote 5 ID: <input type="text" name="product_5"></p>
-    <p>Anna tuotteille ja palveluille kateprosentti: <input type="number" name="margin"></p>
-    <p><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></p>
-    <p>Jos lasku ei mene läpi, kokeile seuraavaa laskunumeroa, tai keksi iso laskunumero. Laskunumerot ovat uniikkeja. Tarkista myös, että ID:t ovat oikeita</p>
-    <p>Kun painat tästä siirryt sivulle, jossa lasku näkyy ja laskun tiedot tallentuvat laskuarkistoon, tulosta tai tallenna lasku koneellesi ja lähetä sähköpostilla. Pääset takaisin laskunäkymästä selaimen takaisin näppäimestä.<input type="submit" value="Luo lasku"></p>
-    <hr>
-    </form>
+    <p>Jos lasku ei mene läpi, kokeile seuraavaa laskunumeroa, tai keksi iso laskunumero. Laskunumerot ovat
+        uniikkeja. Tarkista myös, että ID:t ovat oikeita</p>
     <script>
-      var customerId = {{ customers_id | tojson }};
-      var invoiceNumbers = {{ invoice_numbers | tojson }};
-      var productId = {{ products_id | tojson }};
-      function check(form) {
-          if (form.biller_ID.value.trim() === "") {
-              alert("Anna laskuttajan ID numero");
-              return false;
-          }
-          if (form.customer_ID.value.trim() === "") {
-              alert("Anna asiakkaan ID numero");
-              return false;
-          }
-          if (form.invoice_number.value.trim() === "") {
-              alert("Anna laskunumero");
-              return false;
-          }
-          if (form.product_1.value.trim() === "") {
-              alert("Tuote 1 ID puuttuu");
-              return false;
-          }
-          if (form.product_2.value.trim() === "") {
-              alert("Tuote 2 ID puuttuu");
-              return false;
-          }
-          if (form.product_3.value.trim() === "") {
-              alert("Tuote 3 ID puuttuu");
-              return false;
-          }
-          if (form.product_4.value.trim() === "") {
-              alert("Tuote 4 ID puuttuu");
-              return false;
-          }
-          if (form.product_5.value.trim() === "") {
-              alert("Tuote 5 ID puuttuu");
-              return false;
-          }
-          if (form.margin.value.trim() === "") {
-              alert("Kateprosentti puuttuu");
-              return false;
-          }
-          if (!customerId.includes(Number(form.biller_ID.value))) {
-              alert("Laskuttajaa ei löydy listalta");
-              return false;
-          }
-          if (!customerId.includes(Number(form.customer_ID.value))) {
-              alert("Asiakasta ei löydy listalta");
-              return false;
-          }
-          if (invoiceNumbers.includes(form.invoice_number.value)) {
-              alert("Laskunnumero on jo käytössä");
-              return false;
-          }
-          if (!productId.includes(Number(form.product_1.value))) {
-              alert("Tuotetta 1 ei löydy listalta");
-              return false;
-          }
-          if (!productId.includes(Number(form.product_2.value))) {
-              alert("Tuotetta 2 ei löydy listalta");
-              return false;
-          }
-          if (!productId.includes(Number(form.product_3.value))) {
-              alert("Tuotetta 3 ei löydy listalta");
-              return false;
-          }
-          if (!productId.includes(Number(form.product_4.value))) {
-              alert("Tuotetta 4 ei löydy listalta");
-              return false;
-          }
-          if (!productId.includes(Number(form.product_5.value))) {
-              alert("Tuotetta 5 ei löydy listalta");
-              return false;
-          }
-          alert("Laskun luonti pitäisi onnistua näillä tiedoilla, saat erillisen virheviestin, jos se ei onnistunutkaan! Pääset takaisin laskunäkymästä selaimen takaisin painikkeella.");
-          return true;
-      }
-  </script>
-    <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
-    <nav><a href="/">Etusivulle</a></nav> 
+        var customerId = {{ customers_id | tojson }};
+        var invoiceNumbers = {{ invoice_numbers | tojson}};
+        var productId = {{ products_id | tojson }};
+        function check(form) {
+            if (form.biller_ID.value.trim() === "") {
+                alert("Anna laskuttajan ID numero");
+                return false;
+            }
+            if (form.customer_ID.value.trim() === "") {
+                alert("Anna asiakkaan ID numero");
+                return false;
+            }
+            if (form.invoice_number.value.trim() === "") {
+                alert("Anna laskunumero");
+                return false;
+            }
+            if (form.product_1.value.trim() === "") {
+                alert("Tuote 1 ID puuttuu");
+                return false;
+            }
+            if (form.product_2.value.trim() === "") {
+                alert("Tuote 2 ID puuttuu");
+                return false;
+            }
+            if (form.product_3.value.trim() === "") {
+                alert("Tuote 3 ID puuttuu");
+                return false;
+            }
+            if (form.product_4.value.trim() === "") {
+                alert("Tuote 4 ID puuttuu");
+                return false;
+            }
+            if (form.product_5.value.trim() === "") {
+                alert("Tuote 5 ID puuttuu");
+                return false;
+            }
+            if (form.margin.value.trim() === "") {
+                alert("Kateprosentti puuttuu");
+                return false;
+            }
+            if (!customerId.includes(Number(form.biller_ID.value))) {
+                alert("Laskuttajaa ei löydy listalta");
+                return false;
+            }
+            if (!customerId.includes(Number(form.customer_ID.value))) {
+                alert("Asiakasta ei löydy listalta");
+                return false;
+            }
+            if (invoiceNumbers.includes(form.invoice_number.value)) {
+                alert("Laskunnumero on jo käytössä");
+                return false;
+            }
+            if (!productId.includes(Number(form.product_1.value))) {
+                alert("Tuotetta 1 ei löydy listalta");
+                return false;
+            }
+            if (!productId.includes(Number(form.product_2.value))) {
+                alert("Tuotetta 2 ei löydy listalta");
+                return false;
+            }
+            if (!productId.includes(Number(form.product_3.value))) {
+                alert("Tuotetta 3 ei löydy listalta");
+                return false;
+            }
+            if (!productId.includes(Number(form.product_4.value))) {
+                alert("Tuotetta 4 ei löydy listalta");
+                return false;
+            }
+            if (!productId.includes(Number(form.product_5.value))) {
+                alert("Tuotetta 5 ei löydy listalta");
+                return false;
+            }
+            alert(
+                "Laskun luonti pitäisi onnistua näillä tiedoilla, saat erillisen virheviestin, jos se ei onnistunutkaan! Pääset takaisin laskunäkymästä selaimen takaisin painikkeella.");
+            return true;
+        }
+    </script>
+    </div>
     {% else %}
-    <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
-    <a href="/login">Kirjaudu sisään tästä</a>
-    <a href="/register">Luo uusi tunnus tästä</a>
+    <div class="header">
+        <h1>JK Invoicing Web Application</h1>
+    </div>
+    <br>
+    <div class="content">
+        <h2>Tervetuloa JK laskutussovellukseen!</h2>
+        <p>Sivustot ovat vielä kehitteillä.</p>
+        <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+        <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+    </div>
     {% endif %}
-  </body> 
-</html> 
-
-
-
-
-
-
+</body>
+</html>

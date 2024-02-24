@@ -1,21 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="FI">
   <head>
-    <meta charset="utf-8">
     <title>remove_customer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
-    <h1>Asiakkaan poistaminen</h1>
     {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/sent_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h2>Asiakkaan poistaminen</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Täällä voit voit poistaa asiakkaan!</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <hr>
     <form action="/remove_customer" method="post" onsubmit="return check(this);">
-    <p>Anna poistettavan asiakkaan ID: <input type="number" name="ID"></p>
-    <p><input type="submit" value="Poista asiakas"></p>
-    <p><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></p>
+      <p>Anna poistettavan asiakkaan ID:</p>
+      <input type="number" name="ID" id="ID">
+      <input type="submit" value="Poista asiakas" class="button-style">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <script>
       var customerId = {{ customers_id | tojson }};
@@ -31,15 +51,20 @@
           alert("Asiakkaan poisto pitäisi onnistua näillä tiedoilla, saat erillisen virheviestin, jos se ei onnistunutkaan!");
           return true;
       }
-  </script>
-    <p>Jos haluat siirtyä etusivulle, siirry tästä:</p>
-    <nav><a href="/">Etusivulle</a></nav> 
+    </script>
+  </div>
     {% else %}
-    <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
-    <a href="/login">Kirjaudu sisään tästä</a>
-    <a href="/register">Luo uusi tunnus tästä</a>
+    <div class="header">
+      <h1>JK Invoicing Web Application</h1>
+    </div>
+    <br>
+    <div class="content">
+      <h2>Tervetuloa JK laskutussovellukseen!</h2>
+      <p>Sivustot ovat vielä kehitteillä.</p>
+      <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+      <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+    </div>
     {% endif %}
-  </body> 
-</html> 
+  </body>
+</html>
 

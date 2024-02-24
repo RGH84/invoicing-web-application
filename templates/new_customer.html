@@ -1,73 +1,97 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>new_customer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  </head>
-  <body>
-    {% if session.user_id %}
-    <h1>Uuden asiakkaan luonti</h1>
+<html lang="FI">
+<head>
+  <title>new_customer</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/sent_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h2>Uuden asiakkaan luonti</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit luoda uuden asiakkaan!</p>
+    <p>Täällä voit luoda uuden asiakkaan! Luo myös omista tiedoistasi asiakas.</p>
     <p>Kirjoita joka kenttäään jotakin. Max pituus 20 merkkiä min 1 merkki. Käytä esim. 0, jos ei tiedossa</p>
     <form action="/new_customer" method="post" onsubmit="return check(this);">
-      <p>Asiakkaan/yrityksen nimi: <input type="text" name="customer_name"></p>
-      <p>Osoite: <input type="text" name="address"></p>
-      <p>Puhelinnumero: <input type="text" name="phonenumber"></p>
-      <p>Y-tunnus: <input type="text" name="business_id"></p>
-      <input type="submit" value="Luo asiakas">
+      <label for="customer_name">Asiakkaan nimi:</label>
+      <input type="text" name="customer_name" id="customer_name">
+      <label for="address">Osoite:</label>
+      <input type="text" name="address" id="address">
+      <label for="phonenumber">Puhelinnumero:</label>
+      <input type="text" name="phonenumber" id="phonenumber">
+      <label for="business_id">Y-tunnus:</label>
+      <input type="text" name="business_id" id="business_id">
+      <input type="submit" class="button-style" value="Luo asiakas">
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <script>
       function check(form) {
-          if (form.customer_name.value.length > 20) {
-              alert("Asiakkaan nimi on liian pitkä");
-              return false;
-          }
-          if (form.customer_name.value.length < 1) {
-              alert("Asiakkaan nimi on liian lyhyt");
-              return false;
-          }
-          if (form.address.value.length < 1) {
-              alert("Osoite on liian lyhyt");
-              return false;
-          }
-          if (form.address.value.length > 20) {
-              alert("Osoite on liian pitkä");
-              return false;
-          }
-          if (form.phonenumber.value.length > 20) {
-              alert("Puhelinnumero on liian pitkä");
-              return false;
-          }
-          if (form.phonenumber.value.length < 1) {
-              alert("Puhelinnumero on liian lyhyt");
-              return false;
-          }
-          if (form.business_id.value.length > 20) {
-              alert("Y-tunnus on liian pitkä");
-              return false;
-          }
-          if (form.business_id.value.length < 1) {
-              alert("Y-tunnus on liian lyhyt");
-              return false;
-          }
-          alert("Asiakkaan luonti onnistui todennäköisesti, jos jotain meni vielä pieleen, saat erillisen virheviestin.");
-          return true;
+        if (form.customer_name.value.length > 20) {
+          alert("Asiakkaan nimi on liian pitkä");
+          return false;
+        }
+        if (form.customer_name.value.length < 1) {
+          alert("Asiakkaan nimi on liian lyhyt");
+          return false;
+        }
+        if (form.address.value.length < 1) {
+          alert("Osoite on liian lyhyt");
+          return false;
+        }
+        if (form.address.value.length > 20) {
+          alert("Osoite on liian pitkä");
+          return false;
+        }
+        if (form.phonenumber.value.length > 20) {
+          alert("Puhelinnumero on liian pitkä");
+          return false;
+        }
+        if (form.phonenumber.value.length < 1) {
+          alert("Puhelinnumero on liian lyhyt");
+          return false;
+        }
+        if (form.business_id.value.length > 20) {
+          alert("Y-tunnus on liian pitkä");
+          return false;
+        }
+        if (form.business_id.value.length < 1) {
+          alert("Y-tunnus on liian lyhyt");
+          return false;
+        }
+        alert("Asiakkaan luonti onnistui todennäköisesti, jos jotain meni vielä pieleen, saat erillisen virheviestin.");
+        return true;
       }
     </script>
-    <hr>
-    <nav><a href="/new_customer">Uusi asiakas</a></nav>
-    <nav><a href="/">Etusivulle</a></nav>
-    {% else %}
-    <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
-    <a href="/login">Kirjaudu sisään tästä</a>
-    <a href="/register">Luo uusi tunnus tästä</a>
-    {% endif %}
-  </body> 
-</html> 
-
-
-
+  </div>
+  {% else %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <br>
+  <div class="content">
+    <h2>Tervetuloa JK laskutussovellukseen!</h2>
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+    <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+  </div>
+  {% endif %}
+</body>
+</html>

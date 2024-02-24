@@ -1,37 +1,60 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Product register</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  </head>
-  <body>
-    {% if session.user_id %}
-    <h1>Tuoterekisteri</h1>
+<html lang="FI">
+<head>
+  <title>Product register</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/sent_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h2>Tuoterekisteri</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
     <p>Täällä voit katsella tuotteita ja palveluitasi!</p>
     <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
     <p>Sinulla on {{ count }} tuotetta ja palvelua.</p>
+    <p>Jos haluat poistaa tuotteen/palvelun paina tästä:</p>
+    <a href="/remove_product" class="button-style">Poista tuote/palvelu</a>
     <hr>
     {% for product in products_register %}
-    <p><i>ID:</i> {{ product[0] }}</p>
-    <p><i>Tuotteen/palvelun nimi:</i> {{ product[1] }}</p>
-    <p><i>Tyyppi:</i> {{ product[2] }}</p>
-    <p><i>Tuotenumero/tunnus:</i> {{ product[3] }}</p>
-    <p><i>Hinta:</i> {{ product[4] }}</p>
+    <div class="list-block">
+      <p><i>ID:</i> {{ product[0] }}</p>
+      <p><i>Tuotteen/palvelun nimi:</i> {{ product[1] }}</p>
+      <p><i>Tyyppi:</i> {{ product[2] }}</p>
+      <p><i>Tuotenumero/tunnus:</i> {{ product[3] }}</p>
+      <p><i>Hinta:</i> {{ product[4] }}</p>
+    </div>
     <hr>
     {% endfor %}
-    <p>Jos haluat luoda uuden tuotteen paina tästä: <nav><a href="/new_product">Luo uusi tuote</a></nav></p>
-    <p>Jos haluat poistaa tuotteen/palvelun paina tästä: <nav><a href="/remove_product">Poista tuote/palvelu</a></nav></p>
-    <p>Jos haluat etusivulle paina tästä: <nav><a href="/">Etusivulle</a></nav></p>
     {% else %}
-    <h1>Tervetuloa JK laskutussovellukseen!</h1>
-    <p>Sinulla ei ole oikeutta tälle sivulle, kirjaudu sisään tai luo uusi käyttäjätunnus.</p>
-    <a href="/login">Kirjaudu sisään tästä</a>
-    <a href="/register">Luo uusi tunnus tästä</a>
+    <div class="header">
+      <h1>JK Invoicing Web Application</h1>
+    </div>
+    <br>
+    <div class="content">
+      <h2>Tervetuloa JK laskutussovellukseen!</h2>
+      <p>Sivustot ovat vielä kehitteillä.</p>
+      <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+      <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+    </div>
     {% endif %}
-  </body> 
-</html> 
-
-
-
+</body>
+</html>

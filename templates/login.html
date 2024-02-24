@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  </head>
-  <body>
-    <h1>Kirjaudu sisään!</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <br>
+  <div class="content">
+    <h2>Kirjaudu sisään!</h2>
     <form action="/login" method="post" onsubmit="return check(this)">
-    <p>Tunnus: <input type="text" name="username"></p>
-    <p>Salasana: <input type="password" name="password"></p>
-    <p><input type="submit" value="Kirjaudu"></p>
-    <p><input type="hidden" name="csrf_token" value="{{ csrf_token }}"></p>
-    </form>
-    <script>
-      var user_names = {{ usernames | tojson }};
-      function check(form) {
-          if (!user_names.includes(form.username.value)) {
-              alert("Käyttäjänimeä ei ole olemassa!");
-              return false;
-          }
-          return true;
+      <label for="username">Tunnus:</label>
+      <input type="text" name="username" id="username">
+      <label for="password">Salasana:</label>
+      <input type="password" name="password" id="password">
+      <input type="submit" class="button-style" value="Kirjaudu sisään">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  </div>
+  </form>
+  <script>
+    var user_names = {{ usernames | tojson }};
+    function check(form) {
+      if (!user_names.includes(form.username.value)) {
+        alert("Käyttäjänimeä ei ole olemassa!");
+        return false;
       }
-      </script>
-  </body>
+      return true;
+    }
+  </script>
+</body>
 </html>
-
