@@ -11,7 +11,7 @@ nav li {
   background: orange;
   border-radius: .5em;
   margin: .2em;
-  border: 1px solid #f8f8f8; /* Vaalea reuna */
+  border: 1px solid #f8f8f8;
 }
 
 .header {
@@ -34,12 +34,12 @@ nav ul {
     border-radius: .5em
  }
  
- nav  {
+nav  {
     background: yellow;
     border-radius: .5em
   }
 
-  nav li a {
+nav li a {
     text-decoration: none;
     color: #000;
 }
@@ -62,6 +62,8 @@ body a {
     border-radius: 5px;
     display: inline-block;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
+    border: 1px solid #f8f8f8;
   }
   
 .button-style:hover {
@@ -92,7 +94,7 @@ form label, input {
     margin: 5px 0;
   }
 
-  .invoice {
+.invoice {
     background: white;
     padding: 1.5em 2em;
     border-radius: .5em
