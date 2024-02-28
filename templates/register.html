@@ -25,7 +25,7 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         </form>
         <script>
-            var user_names = {{ usernames | tojson}};
+            var user_names = {{ usernames | tojson }};
             function check(form) {
                 if (form.username.value.length > 20) {
                     alert("Käyttäjänimi on liian pitkä");
@@ -48,7 +48,7 @@
                     return false;
                 }
                 if (user_names.includes(form.username.value)) {
-                    alert("Käyuttäjänimi on jo käytössä!");
+                    alert("Käyttäjänimi on jo käytössä!");
                     return false;
                 }
                 return true;
