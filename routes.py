@@ -1,20 +1,19 @@
-from db import db
+import secrets
+from datetime import datetime
+from flask import redirect, render_template, request, session, abort
 from app import app
 import visits
-from flask import redirect, render_template, request, session, abort
 import users
 import customers
 import products
 import invoices
-from datetime import datetime
-import secrets
 
 @app.route("/")
 def index():
     visits.add_visit()
     counter = visits.get_counter()
     return render_template("index.html", counter=counter)
- 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -30,6 +29,7 @@ def login():
             session["username"] = username
             return redirect("/")
         return render_template("error.html", message="Väärä tunnus tai salasana")
+    return None
 
 @app.route("/logout")
 def logout():
@@ -41,23 +41,25 @@ def register():
     if request.method == "GET":
         session["csrf_token"] = secrets.token_hex(16)
         usernames = users.usernames()
-        return render_template("register.html", usernames=usernames, csrf_token=session["csrf_token"])
+        return render_template("register.html", usernames=usernames,
+                                csrf_token=session["csrf_token"])
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if len(password1) > 20 or len(username) > 20:
-            return render_template("error.html", message="Liian pitkä tunnus tai salasana. Max 20 kirjainta.")
-        if len(password1) < 4 or len(username) < 4:
-            return render_template("error.html", message="Liian lyhyt tunnus tai salasana. Min 4 kirjainta.")
+        if is_field_too_long(password1, username) or is_too_short(password1, username):
+            return render_template("error.html",
+                                    message="Tarkista syötteiden pituudet.")
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat")
         if users.register(username, password1):
             return redirect("/login")
-        return render_template("error.html", message="Rekisteröinti ei onnistunut, kokeile eri käyttäjätunnusta.")
-        
+        return render_template("error.html",
+                                message="Rekisteröinti ei onnistunut, kokeile eri käyttäjätunnusta")
+    return None
+
 @app.route("/new_customer", methods=["GET", "POST"])
 def new_customer():
     if request.method == "GET":
@@ -70,35 +72,40 @@ def new_customer():
         business_id = request.form["business_id"]
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if len(customer_name) > 20 or len(address) > 20 or len(phonenumber) > 20 or len(business_id) > 20:
-            return render_template("error.html", message="Joku kentistä on liian pitkä. Max 20 kirjainta")
-        if len(customer_name) < 1 or len(address) < 1 or len(phonenumber) < 1 or len(business_id) < 1:
+        if is_field_too_long(customer_name, address, phonenumber, business_id):
+            return render_template("error.html", message="Syöte on liian pitkä. Max 20 kirjainta")
+        if is_field_missing(customer_name, address, phonenumber, business_id):
             return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
         if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
             return render_template("/new_customer.html", csrf_token=session["csrf_token"])
-        return render_template("error.html", message="Asiakkan luonti ei onnistunut")
-        
+        return render_template("error.html", message="Asiakkaan luonti ei onnistunut")
+    return None
+
 @app.route("/customer_register")
 def customer_register():
     user_id = users.user_id()
     customers_table = customers.customer_register(user_id)
-    return render_template("/customer_register.html", count=len(customers_table), customers_register=customers_table)
+    return render_template("/customer_register.html",
+                            count=len(customers_table), customers_register=customers_table)
 
 @app.route("/remove_customer", methods=["GET", "POST"])
 def remove_customer():
     if request.method == "GET":
         user_id = users.user_id()
         customers_id = customers.customers_id(user_id)
-        return render_template("remove_customer.html", customers_id=customers_id, csrf_token=session["csrf_token"])
+        return render_template("remove_customer.html",
+                               customers_id=customers_id, csrf_token=session["csrf_token"])
     if request.method == "POST":
-        id = int(request.form["ID"])
+        customer_id = int(request.form["ID"])
         user_id = users.user_id()
         customers_id = customers.customers_id(user_id)
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if id in customers_id and customers.remove_customer(id):
-                return render_template("remove_customer.html", customers_id=customers_id)
+        if customer_id in customers_id and customers.remove_customer(customer_id):
+            return render_template("remove_customer.html",
+                                    customers_id=customers_id, csrf_token=session["csrf_token"])
         return render_template("error.html", message="Asiakkaan poisto ei onnistunut, tarkista ID.")
+    return None
 
 @app.route("/new_product", methods=["GET", "POST"])
 def new_product():
@@ -107,41 +114,47 @@ def new_product():
     if request.method == "POST":
         user_id = users.user_id()
         product_name = request.form["product_name"]
-        type = request.form["type"]
+        product_type = request.form["type"]
         product_number = request.form["product_number"]
         price = request.form["price"]
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if len(product_name) > 20 or len(type) > 20 or len(product_number) > 20 or len(price) > 20:
-            return render_template("error.html", message="Joku kentistä on liian pitkä. Max 20 kirjainta")
-        if len(product_name) < 1 or len(type) < 1 or len(product_number) < 1 or len(price) < 1:
+        if is_field_too_long(product_name, product_type, product_number, price):
+            return render_template("error.html",
+                                   message="Joku kentistä on liian pitkä. Max 20 kirjainta")
+        if is_field_missing(product_name, product_type, product_number, price):
             return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
-        if products.new_product(product_name, type, product_number, price, user_id):
+        if products.new_product(product_name, product_type, product_number, price, user_id):
             return render_template("/new_product.html", csrf_token=session["csrf_token"])
         return render_template("error.html", message="Tuotteen luonti ei onnistunut")
-    
+    return None
+
 @app.route("/product_register")
 def product_register():
     user_id = users.user_id()
     products_table = products.product_register(user_id)
-    return render_template("/product_register.html", count=len(products_table), products_register=products_table)
+    return render_template("/product_register.html",
+        count=len(products_table), products_register=products_table)
 
 @app.route("/remove_product", methods=["GET", "POST"])
 def remove_product():
     if request.method == "GET":
         user_id = users.user_id()
         products_id = products.products_id(user_id)
-        return render_template("remove_product.html", products_id=products_id, csrf_token=session["csrf_token"])
+        return render_template("remove_product.html",
+                                products_id=products_id, csrf_token=session["csrf_token"])
     if request.method == "POST":
-        id = int(request.form["ID"])
+        product_id = int(request.form["ID"])
         user_id = users.user_id()
         products_id = products.products_id(user_id)
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if id in products_id and products.remove_product(id):
-            return render_template("remove_product.html", products_id=products_id)
+        if product_id in products_id and products.remove_product(product_id):
+            return render_template("remove_product.html",
+                                    products_id=products_id, csrf_token=session["csrf_token"])
         return render_template("error.html", message="Tuotteen poistaminen ei onnistunut")
-     
+    return None
+
 @app.route("/new_invoice", methods=["GET", "POST"])
 def new_invoice():
     if request.method == "GET":
@@ -149,7 +162,9 @@ def new_invoice():
         products_id = products.products_id(user_id)
         customers_id = customers.customers_id(user_id)
         invoice_numbers = invoices.numbers(user_id)
-        return render_template("/new_invoice.html", products_id=products_id, customers_id=customers_id, invoice_numbers=invoice_numbers, csrf_token=session["csrf_token"])
+        return render_template("/new_invoice.html",
+                                products_id=products_id, customers_id=customers_id,
+                                invoice_numbers=invoice_numbers, csrf_token=session["csrf_token"])
     if request.method == "POST":
         create_time = datetime.now()
         form_time = create_time.strftime("%d-%m-%Y %H:%M:%S")
@@ -169,14 +184,39 @@ def new_invoice():
         product_three_info = products.info(product_three_id, user_id)
         product_four_info = products.info(product_four_id, user_id)
         product_five_info = products.info(product_five_id, user_id)
-        no_margin_sum = int(product_one_info[0][3]) + int(product_two_info[0][3]) + int(product_three_info[0][3]) + int(product_four_info[0][3]) + int(product_five_info[0][3])
+        no_margin_sum = (
+            int(product_one_info[0][3]) +
+            int(product_two_info[0][3]) +
+            int(product_three_info[0][3]) +
+            int(product_four_info[0][3]) +
+            int(product_five_info[0][3])
+            )
         margin = int(request.form["margin"])
-        sum = no_margin_sum * (margin / 100 + 1) 
+        total_sum = no_margin_sum * (margin / 100 + 1)
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        if invoices.new_invoice(biller_id, customer_id, form_time, invoice_number, product_one_id, product_two_id, product_three_id, product_four_id, product_five_id, no_margin_sum, margin, sum, user_id):
-            return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time)
+        if invoices.new_invoice(
+            biller_id, customer_id, form_time, invoice_number,
+            product_one_id, product_two_id, product_three_id,
+            product_four_id, product_five_id, no_margin_sum,
+            margin, total_sum, user_id
+            ):
+            return render_template(
+                "/invoice.html",
+                biller_info=biller_info,
+                customer_info=customer_info,
+                invoice_number=invoice_number,
+                product_one_info=product_one_info,
+                product_two_info=product_two_info,
+                product_three_info=product_three_info,
+                product_four_info=product_four_info,
+                product_five_info=product_five_info,
+                sum=total_sum,
+                margin=margin,
+                no_margin_sum=no_margin_sum,
+                form_time=form_time)
         return render_template("error.html", message="Laskun luonti ei onnistunut.")
+    return None
 
 @app.route("/invoice_archive", methods=["GET", "POST"])
 def invoice_archive():
@@ -184,7 +224,11 @@ def invoice_archive():
         user_id = users.user_id()
         invoices_table = invoices.invoice_archive(user_id)
         invoice_numbers = invoices.numbers(user_id)
-        return render_template("/invoice_archive.html", count=len(invoices_table), invoice_archive=invoices_table, invoice_numbers=invoice_numbers, csrf_token=session["csrf_token"])
+        return render_template("/invoice_archive.html",
+            count=len(invoices_table),
+            invoice_archive=invoices_table,
+            invoice_numbers=invoice_numbers,
+            csrf_token=session["csrf_token"])
     if request.method == "POST":
         user_id = users.user_id()
         invoices_table = invoices.invoice_archive(user_id)
@@ -209,12 +253,27 @@ def invoice_archive():
         product_five_info = products.info(product_five_id, user_id)
         no_margin_sum = invoice_info[0][9]
         margin = margin=invoice_info[0][10]
-        sum = sum=invoice_info[0][11]
+        total_sum = invoice_info[0][11]
         form_time=invoice_info[0][1]
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
-        return render_template("/invoice.html", biller_info=biller_info, customer_info=customer_info, invoice_number=invoice_number, product_one_info=product_one_info, product_two_info=product_two_info, product_three_info=product_three_info, product_four_info=product_four_info, product_five_info=product_five_info, sum=sum, margin=margin, no_margin_sum=no_margin_sum, form_time=form_time, invoice_numbers=invoice_numbers)
-    
+        return render_template(
+                "/invoice.html",
+                biller_info=biller_info,
+                customer_info=customer_info,
+                invoice_number=invoice_number,
+                product_one_info=product_one_info,
+                product_two_info=product_two_info,
+                product_three_info=product_three_info,
+                product_four_info=product_four_info,
+                product_five_info=product_five_info,
+                sum=total_sum,
+                margin=margin,
+                no_margin_sum=no_margin_sum,
+                form_time=form_time,
+                invoice_numbers=invoice_numbers)
+    return None
+
 @app.route("/to_do_list")
 def to_do_list():
     return render_template("/to_do_list.html")
@@ -223,6 +282,11 @@ def to_do_list():
 def sent_message():
     return render_template("/sent_message.html")
 
+def is_field_too_long(*fields, max_length=20):
+    return any(len(field) > max_length for field in fields)
 
+def is_field_missing(*fields):
+    return any(len(field) < 1 for field in fields)
 
-
+def is_too_short(*fields, min_length=4):
+    return any(len(field) < min_length for field in fields)

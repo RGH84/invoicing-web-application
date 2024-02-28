@@ -1,7 +1,8 @@
-from sqlalchemy.sql import text
-from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.sql import text
+from sqlalchemy.exc import SQLAlchemyError
+from db import db
 
 def login(username, password):
     sql = text("SELECT id, password FROM users WHERE username=:username")
@@ -22,7 +23,7 @@ def register(username, password):
     try:
         sql = text("INSERT INTO users (username,password) VALUES (:username,:password)")
         db.session.execute(sql, {"username":username, "password":hash_value})
-    except:
+    except SQLAlchemyError:
         return False
     db.session.commit()
     return True
@@ -35,4 +36,3 @@ def usernames():
     result = db.session.execute(sql)
     users = [row[0] for row in result.fetchall()]
     return users
-

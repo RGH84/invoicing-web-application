@@ -1,5 +1,5 @@
-from db import db
 from sqlalchemy.sql import text
+from db import db
 
 def add_visit():
     db.session.execute(text("INSERT INTO visitors (time) VALUES (NOW())"))
