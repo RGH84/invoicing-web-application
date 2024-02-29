@@ -1,12 +1,13 @@
 import secrets
 from datetime import datetime
-from flask import redirect, render_template, request, session, abort
+from flask import redirect, url_for, render_template, request, session, abort
 from app import app
 import visits
 import users
 import customers
 import products
 import invoices
+import messages
 
 @app.route("/")
 def index():
@@ -278,9 +279,34 @@ def invoice_archive():
 def to_do_list():
     return render_template("/to_do_list.html")
 
-@app.route("/sent_message")
-def sent_message():
-    return render_template("/sent_message.html")
+@app.route("/send_message", methods=["GET", "POST"])
+def send_message():
+    if request.method == "GET":
+        messages_list = messages.get_messages()
+        return render_template("/send_message.html", count=len(messages_list),
+                               messages_list=messages_list, csrf_token=session["csrf_token"])
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        messages_list = messages.get_messages()
+        content = request.form["content"]
+        if len(content) < 1 or len(content) > 200:
+            return render_template("error.html", message="Tarkista syötteen pituus.")
+        if messages.new_message(content):
+            messages_list = messages.get_messages()
+            return render_template("/send_message.html", count=len(messages_list),
+                                   messages_list=messages_list, csrf_token=session["csrf_token"])
+        return render_template("error.html", message="Viestin lähetys ei onnistunut")
+    return None
+
+@app.route("/remove_message", methods=["POST"])
+def remove_message():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    message_id = request.form["message_id"]
+    if messages.remove_message(message_id):
+        return redirect(url_for("send_message"))
+    return render_template("error.html", message="Viestin poisto ei onnistunut")
 
 def is_field_too_long(*fields, max_length=20):
     return any(len(field) > max_length for field in fields)

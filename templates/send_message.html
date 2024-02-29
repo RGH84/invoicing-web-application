@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="FI">
+<head>
+  <title>send message</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/send_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h2>Viestit</h2>
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <p>Tämä alue mahdollistaa viestien jakamisen kaikkien sovelluksen käyttäjien kesken. Jokainen käyttäjä toimii
+      yhteisön moderaattorina, joten teillä on mahdollisuus poistaa epäasialliset tai sopimattomat viestit. Auttakaa
+      ylläpitämään positiivista ja turvallista keskusteluympäristöä poistamalla asiattomat sisällöt heti niiden
+      havaitsemisen jälkeen.</p>
+    <p>Täällä voit jakaa ajatuksiasi mistä tahansa, olipa kyseessä sitten kokemuksesi tästä sovelluksesta tai päivän
+      sää. Kaikenlaiset keskustelut ovat tervetulleita, kunhan pysymme asiallisella linjalla.</p>
+    <hr>
+    <form id="messageForm" action="/send_message" method="post" onsubmit="return checkMessageLength(this)">
+      Viesti: <br>
+      <textarea name="content" rows="5" cols="150"></textarea>
+      <br>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="submit" value="Lähetä">
+    </form>
+    <script>
+      function checkMessageLength(form) {
+        var messageContent = form.content.value.trim();
+        if (messageContent.length < 1) {
+          alert("Viestin tulee sisältää vähintään 1 merkki.");
+          return false;
+        }
+        if (messageContent.length > 200) {
+          alert("Viesti ei saa olla yli 200 merkkiä pitkä.");
+          return false;
+        }
+        alert("Viestin lähettäminen onnistui.");
+        return true;
+      }
+    </script>
+    <hr>
+    {% for message in messages_list %}
+    <div class="list-block">
+      <p><i>Lähettäjä:</i> {{ message[2] }}</p>
+      <p><i>Aika:</i> {{ message[3].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+      <p><i>Viesti:</i> {{ message[1] }}</p>
+      <form action="/remove_message" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="message_id" value="{{ message[0] }}">
+        <input type="submit" value="Poista viesti">
+      </form>
+    </div>
+    {% endfor %}
+    <hr>
+    {% else %}
+    <div class="header">
+      <h1>JK Invoicing Web Application</h1>
+    </div>
+    <br>
+    <div class="content">
+      <h2>Tervetuloa JK laskutussovellukseen!</h2>
+      <p>Sivustot ovat vielä kehitteillä.</p>
+      <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+      <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+    </div>
+    {% endif %}
+</body>
+</html>

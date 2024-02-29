@@ -100,4 +100,34 @@ form label, input {
     border-radius: .5em
  }
 
+#messageForm {
+  max-width: 800px; 
+  margin: 20px auto; 
+  padding: 20px; 
+  border: 1px solid #ccc;
+  border-radius: 10px; 
+  background-color: yellow; 
+}
+
+#messageForm textarea {
+  width: 100%;
+  padding: 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#messageForm input[type="submit"] {
+  background-color: #45a049;
+  color: white;
+  padding: 12px 20px; 
+  border: none; 
+  border-radius: 4px; 
+  cursor: pointer; 
+}
+
+#messageForm input[type="submit"]:hover {
+  background-color: yellowgreen
+}
+
 

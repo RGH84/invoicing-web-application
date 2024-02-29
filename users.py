@@ -36,3 +36,9 @@ def usernames():
     result = db.session.execute(sql)
     users = [row[0] for row in result.fetchall()]
     return users
+
+def m_username(u_id):
+    sql = text("SELECT username FROM users WHERE id=:user_id")
+    result = db.session.execute(sql, {"user_id":u_id})
+    user = result.fetchone()
+    return user[0]

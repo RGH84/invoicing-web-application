@@ -47,5 +47,13 @@ CREATE TABLE invoices (
     visible BOOLEAN DEFAULT TRUE
 );
 
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    user_name TEXT,
+    user_id INTEGER REFERENCES users,
+    sent_at TIMESTAMP,
+    visible BOOLEAN DEFAULT TRUE
+);
 
 
