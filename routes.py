@@ -8,6 +8,7 @@ import customers
 import products
 import invoices
 import messages
+import to_do
 
 @app.route("/")
 def index():
@@ -275,10 +276,44 @@ def invoice_archive():
                 invoice_numbers=invoice_numbers)
     return None
 
-@app.route("/to_do_list")
-def to_do_list():
-    return render_template("/to_do_list.html")
+@app.route("/remove_invoice", methods=["POST"])
+def remove_invoice():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    invoice_number = request.form["invoice_number"]
+    if invoices.remove_invoice(invoice_number):
+        return redirect(url_for("invoice_archive"))
+    return render_template("error.html", message="Laskun poisto ei onnistunut")
 
+@app.route("/to_do_list", methods=["GET", "POST"])
+def to_do_list():
+    if request.method == "GET":
+        to_do_info = to_do.get_to_do_list()
+        return render_template("/to_do_list.html", count=len(to_do_info),
+                               to_do_info=to_do_info, csrf_token=session["csrf_token"])
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        to_do_info = to_do.get_to_do_list()
+        content = request.form["content"]
+        if len(content) < 1 or len(content) > 200:
+            return render_template("error.html", message="Tarkista syötteen pituus.")
+        if to_do.new_to_do(content):
+            to_do_info = to_do.get_to_do_list()
+            return render_template("/to_do_list.html", count=len(to_do_info),
+                        to_do_info=to_do_info, csrf_token=session["csrf_token"])
+        return render_template("error.html", message="Viestin lähetys ei onnistunut")
+    return None
+
+@app.route("/remove_to_do", methods=["POST"])
+def remove_to_do():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    to_do_id = request.form["to_do_id"]
+    if to_do.remove_to_do(to_do_id):
+        return redirect(url_for("to_do_list"))
+    return render_template("error.html", message="Tehtävän poisto ei onnistunut")
+    
 @app.route("/send_message", methods=["GET", "POST"])
 def send_message():
     if request.method == "GET":

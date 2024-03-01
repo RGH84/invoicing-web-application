@@ -1,5 +1,7 @@
 from sqlalchemy.sql import text
+from sqlalchemy.exc import SQLAlchemyError
 from db import db
+import users
 
 def new_invoice(biller_id, customer_id, form_time, invoice_number, product_one_id,
                 product_two_id, product_three_id, product_four_id, product_five_id,
@@ -76,3 +78,18 @@ def numbers(user_id):
     result = db.session.execute(sql, {"user_id": user_id})
     invoice_numbers = [row[0] for row in result.fetchall()]
     return invoice_numbers
+
+def remove_invoice(invoice_number):
+    user_id = users.user_id()
+    try:
+        sql = text(
+            "UPDATE invoices "
+            "SET visible=FALSE "
+            "WHERE invoice_number=:invoice_number "
+            "AND user_id=:user_id"
+        )
+        db.session.execute(sql, {"invoice_number": invoice_number, "user_id": user_id})
+        db.session.commit()
+    except SQLAlchemyError:
+        return False
+    return True

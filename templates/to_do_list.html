@@ -1,14 +1,84 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>To Do List</title>
-  </head>
-  <body>
-    <h1>Muistilista</h1>
-    <p>Sivustot ovat vielä kehitteillä. Tämä toiminto on vielä täysin kesken.</p>
-    <p>Täällä voit lisätä ja katsella muistiinpoanojasi!</p>
+<html lang="FI">
+<head>
+  <title>to do list</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  {% if session.user_id %}
+  <div class="header">
+    <h1>JK Invoicing Web Application</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/new_customer">Luo uusi asiakas</a></li>
+      <li><a href="/customer_register">Asiakasrekisteri</a></li>
+      <li><a href="/new_product">Luo uusi tuote/palvelu</a></li>
+      <li><a href="/product_register">Tuoterekisteri</a></li>
+      <li><a href="/new_invoice">Luo uusi lasku</a></li>
+      <li><a href="/invoice_archive">Laskuarkisto</a></li>
+      <li><a href="/to_do_list">To Do List</a></li>
+      <li><a href="/send_message">Lähetä viesti</a></li>
+      <li><a href="/">Etusivulle</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <h2>To Do List</h2>
+    <p>Sivustot ovat vielä kehitteillä.</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+    <p>Sivustolla on {{ count }} viestiä.</p>
+    <p>Tämä alue mahdollistaa to do listan tekemisen itsellesi. Voit myös poistaa tehtäviä.</p>
+    <p>Kentän maksimipituus on 200 merkkiä.</p>
     <hr>
-    <nav><a href="/">Etusivulle</a></nav>
-  </body> 
-</html> 
+    <form id="messageForm" action="/to_do_list" method="post" onsubmit="return checkMessageLength(this)">
+      Tehtävä: <br>
+      <textarea name="content" rows="5" cols="150"></textarea>
+      <br>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="submit" value="Lähetä">
+    </form>
+    <script>
+      function checkMessageLength(form) {
+        var messageContent = form.content.value.trim();
+        if (messageContent.length < 1) {
+          alert("Tehtävä tulee sisältää vähintään 1 merkki.");
+          return false;
+        }
+        if (messageContent.length > 200) {
+          alert("Tehtävä ei saa olla yli 200 merkkiä pitkä.");
+          return false;
+        }
+        alert("Tehtävän luonti onnistui.");
+        return true;
+      }
+    </script>
+    <hr>
+    {% for to_do in to_do_info %}
+    <div class="list-block">
+      <p><i>Aika:</i> {{ to_do[3].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+      <p><i>Viesti:</i> {{ to_do[1] }}</p>
+      <form action="/remove_to_do" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="to_do_id" value="{{ to_do[0] }}">
+        <input type="submit" value="Poista tehtävä">
+      </form>
+    </div>
+    {% endfor %}
+    <hr>
+    {% else %}
+    <div class="header">
+      <h1>JK Invoicing Web Application</h1>
+    </div>
+    <br>
+    <div class="content">
+      <h2>Tervetuloa JK laskutussovellukseen!</h2>
+      <p>Sivustot ovat vielä kehitteillä.</p>
+      <a href="/login" class="button-style">Kirjaudu sisään tästä</a>
+      <a href="/register" class="button-style">Luo uusi tunnus tästä</a>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -56,4 +56,13 @@ CREATE TABLE messages (
     visible BOOLEAN DEFAULT TRUE
 );
 
+CREATE TABLE to_do_list (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    user_name TEXT,
+    user_id INTEGER REFERENCES users,
+    sent_at TIMESTAMP,
+    visible BOOLEAN DEFAULT TRUE
+);
+
 

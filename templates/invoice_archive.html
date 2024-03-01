@@ -28,7 +28,8 @@
   <div class="content">
     <h2>Laskuarkisto</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit tarkistella laskujasi! Sinulla on {{ count }} laskua.</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+    <p>Täällä voit tarkistella ja poistaa laskujasi. Sinulla on {{ count }} laskua.</p>
     <p>Mitä laskua haluat tutkia tarkemmin, kirjoita laskunumero alle.</p>
     <form action="/invoice_archive" method="post" onsubmit="return check(this);">
       <label for="invoice_number">Laskun numero:</label>
@@ -59,6 +60,11 @@
       <p><i>Laskuttajan ID:</i> {{ info[2] }}</p>
       <p><i>Asiakkaan ID:</i> {{ info[3] }}</p>
       <p><i>Summa:</i> {{ info[11] }}</p>
+      <form action="/remove_invoice" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="invoice_number" value="{{ info[0] }}">
+        <input type="submit" value="Poista lasku">
+      </form>
     </div>
     <hr>
     {% endfor %}
