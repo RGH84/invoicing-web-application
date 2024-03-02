@@ -34,8 +34,23 @@ Sovelluksessa voi välipalautus 2 ominaisuuksien lisäksi luoda uuden laskun ja 
 
 Lisäksi ohjelman ulkoasua on hivenen paranneltu, mutta siihen ei kuitenkaan vielä ole hirveästi panostettu.
 
-Ohjelmaan on myös lisätty javascript tarkastukset syötteille rekisteröinnnin, sisäänkirjautumisen ja laskujen tarkastelun yhteydessä. Muille tapahtumille tarkastukset tullaan lisäämään lopulliseen versioon .
+Ohjelmaan on myös lisätty JavaScript tarkastukset syötteille rekisteröinnin, sisäänkirjautumisen ja laskujen tarkastelun yhteydessä. Muille tapahtumille tarkastukset tullaan lisäämään lopulliseen versioon .
 
-Muut toiminnot ovat vielä kesken ja lisää omminaisuuksia ja entisten parannuksia tulee lopulliseen versioon.
+Muut toiminnot ovat vielä kesken ja lisää ominaisuuksia ja entisten parannuksia tulee lopulliseen versioon.
 
 Sovellusta voi edelleen testata tuotannossa fly.io:n kautta osoitteessa https://invoicing-web-application.fly.dev/ .
+
+## Lopullinen palautus
+Lopulliseen palautukseen tuli isoimpina muutoksina CSRF-haavoittuvuuden korjaus, ulkoasu on toteutettu CSS:llä, lisätty mahdollisuus poistaa lasku, to do listiin voi lisätä omia muistiinpanoja ja viesti osiossa voi keskustella sovelluksen muiden käyttäjien kanssa ja poistaa viestejä tarpeen mukaan. Sivustoille on lisätty myös JavaScript tarkistukset ja korjailtu myös tarkistuksia, jos JavaScript on pois päältä. Sivustoilla kehotetaan pitämään JavaScript päällä, jotta käyttökokemus olisi parempi.
+
+Sivustoilla lukee, että sivustot ovat kehitteillä. Sovellusta on tarkoitus jatkokehittää omalla ajalla, kunhan kokemusta tulee ohjelmoinnista lisää ja aikaa on. Esim. sovelluksen lasku ominaisuudet ovat tällä hetkellä hyvin alkeellisia.  
+
+Sovellusta voi edelleen testata tuotannossa Fly.io:n kautta osoitteessa https://invoicing-web-application.fly.dev/ . 
+
+Fly:lta on tullut ainakin yhden kerran sähköpostia, että sovellus on kaatunut muistin vähyyden vuoksi ja tarjoaa maksullista lisämuistia. Sitä en tässä vaiheessa ala ostamaan, joten jos sovellus on jostain syystä alhaalla, niin voitte käynnistää sovelluksen myös paikallisesti kurssimateriaalin ohjeiden mukaisesti. 
+
+
+
+
+
+
