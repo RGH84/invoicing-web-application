@@ -28,12 +28,15 @@
   <div class="content">
     <h2>Viestit</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+    <p>Sivustolla on {{ count }} viestiä.</p>
     <p>Tämä alue mahdollistaa viestien jakamisen kaikkien sovelluksen käyttäjien kesken. Jokainen käyttäjä toimii
       yhteisön moderaattorina, joten teillä on mahdollisuus poistaa epäasialliset tai sopimattomat viestit. Auttakaa
       ylläpitämään positiivista ja turvallista keskusteluympäristöä poistamalla asiattomat sisällöt heti niiden
       havaitsemisen jälkeen.</p>
     <p>Täällä voit jakaa ajatuksiasi mistä tahansa, olipa kyseessä sitten kokemuksesi tästä sovelluksesta tai päivän
       sää. Kaikenlaiset keskustelut ovat tervetulleita, kunhan pysymme asiallisella linjalla.</p>
+    <p>Kentän maksimipituus on 200 merkkiä.</p>
     <hr>
     <form id="messageForm" action="/send_message" method="post" onsubmit="return checkMessageLength(this)">
       Viesti: <br>

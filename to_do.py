@@ -10,7 +10,7 @@ def new_to_do(content):
         return False
     sql = text("""
         INSERT INTO to_do_list (content, user_name, user_id, sent_at) 
-        VALUES (:content, :user_name, :user_id, NOW())
+        VALUES (:content, :user_name, :user_id, NOW() AT TIME ZONE 'Europe/Helsinki')
     """)
     db.session.execute(sql, {"content": content, "user_name": user_name, "user_id": user_id})
     db.session.commit()

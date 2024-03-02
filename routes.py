@@ -30,7 +30,7 @@ def login():
         if users.login(username, password):
             session["username"] = username
             return redirect("/")
-        return render_template("error.html", message="Väärä tunnus tai salasana")
+        return render_template("error.html", message="Väärä tunnus tai salasana.")
     return None
 
 @app.route("/logout")
@@ -75,12 +75,12 @@ def new_customer():
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
         if is_field_too_long(customer_name, address, phonenumber, business_id):
-            return render_template("error.html", message="Syöte on liian pitkä. Max 20 kirjainta")
+            return render_template("error.html", message="Syöte on liian pitkä. Max 20 kirjainta.")
         if is_field_missing(customer_name, address, phonenumber, business_id):
-            return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
+            return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain.")
         if customers.new_customer(customer_name, address, phonenumber, business_id, user_id):
             return render_template("/new_customer.html", csrf_token=session["csrf_token"])
-        return render_template("error.html", message="Asiakkaan luonti ei onnistunut")
+        return render_template("error.html", message="Asiakkaan luonti ei onnistunut.")
     return None
 
 @app.route("/customer_register")
@@ -98,6 +98,8 @@ def remove_customer():
         return render_template("remove_customer.html",
                                customers_id=customers_id, csrf_token=session["csrf_token"])
     if request.method == "POST":
+        if not request.form.get("ID"):
+            return render_template("error.html", message="ID-kenttä ei saa olla tyhjä.")
         customer_id = int(request.form["ID"])
         user_id = users.user_id()
         customers_id = customers.customers_id(user_id)
@@ -123,12 +125,12 @@ def new_product():
             abort(403)
         if is_field_too_long(product_name, product_type, product_number, price):
             return render_template("error.html",
-                                   message="Joku kentistä on liian pitkä. Max 20 kirjainta")
+                                   message="Joku kentistä on liian pitkä. Max 20 kirjainta.")
         if is_field_missing(product_name, product_type, product_number, price):
-            return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain")
+            return render_template("error.html", message="Joku kentistä puuttuu. Min 1 kirjain.")
         if products.new_product(product_name, product_type, product_number, price, user_id):
             return render_template("/new_product.html", csrf_token=session["csrf_token"])
-        return render_template("error.html", message="Tuotteen luonti ei onnistunut")
+        return render_template("error.html", message="Tuotteen luonti ei onnistunut.")
     return None
 
 @app.route("/product_register")
@@ -146,6 +148,8 @@ def remove_product():
         return render_template("remove_product.html",
                                 products_id=products_id, csrf_token=session["csrf_token"])
     if request.method == "POST":
+        if not request.form.get("ID"):
+            return render_template("error.html", message="ID-kenttä ei saa olla tyhjä.")
         product_id = int(request.form["ID"])
         user_id = users.user_id()
         products_id = products.products_id(user_id)
@@ -154,7 +158,7 @@ def remove_product():
         if product_id in products_id and products.remove_product(product_id):
             return render_template("remove_product.html",
                                     products_id=products_id, csrf_token=session["csrf_token"])
-        return render_template("error.html", message="Tuotteen poistaminen ei onnistunut")
+        return render_template("error.html", message="Tuotteen poistaminen ei onnistunut.")
     return None
 
 @app.route("/new_invoice", methods=["GET", "POST"])
@@ -168,6 +172,13 @@ def new_invoice():
                                 products_id=products_id, customers_id=customers_id,
                                 invoice_numbers=invoice_numbers, csrf_token=session["csrf_token"])
     if request.method == "POST":
+        required_fields = [
+            "biller_ID", "customer_ID", "invoice_number", "product_1", "product_2",
+            "product_3", "product_4", "product_5", "margin"
+        ]
+        for field in required_fields:
+            if not request.form.get(field):
+                return render_template("error.html", message="Mikään kenttä ei saa olla tyhjä.")
         create_time = datetime.now()
         form_time = create_time.strftime("%d-%m-%Y %H:%M:%S")
         user_id = users.user_id()
@@ -283,7 +294,7 @@ def remove_invoice():
     invoice_number = request.form["invoice_number"]
     if invoices.remove_invoice(invoice_number):
         return redirect(url_for("invoice_archive"))
-    return render_template("error.html", message="Laskun poisto ei onnistunut")
+    return render_template("error.html", message="Laskun poisto ei onnistunut.")
 
 @app.route("/to_do_list", methods=["GET", "POST"])
 def to_do_list():
@@ -302,7 +313,7 @@ def to_do_list():
             to_do_info = to_do.get_to_do_list()
             return render_template("/to_do_list.html", count=len(to_do_info),
                         to_do_info=to_do_info, csrf_token=session["csrf_token"])
-        return render_template("error.html", message="Viestin lähetys ei onnistunut")
+        return render_template("error.html", message="Viestin lähetys ei onnistunut.")
     return None
 
 @app.route("/remove_to_do", methods=["POST"])
@@ -312,8 +323,8 @@ def remove_to_do():
     to_do_id = request.form["to_do_id"]
     if to_do.remove_to_do(to_do_id):
         return redirect(url_for("to_do_list"))
-    return render_template("error.html", message="Tehtävän poisto ei onnistunut")
-    
+    return render_template("error.html", message="Tehtävän poisto ei onnistunut.")
+
 @app.route("/send_message", methods=["GET", "POST"])
 def send_message():
     if request.method == "GET":
@@ -331,7 +342,7 @@ def send_message():
             messages_list = messages.get_messages()
             return render_template("/send_message.html", count=len(messages_list),
                                    messages_list=messages_list, csrf_token=session["csrf_token"])
-        return render_template("error.html", message="Viestin lähetys ei onnistunut")
+        return render_template("error.html", message="Viestin lähetys ei onnistunut.")
     return None
 
 @app.route("/remove_message", methods=["POST"])
@@ -341,7 +352,7 @@ def remove_message():
     message_id = request.form["message_id"]
     if messages.remove_message(message_id):
         return redirect(url_for("send_message"))
-    return render_template("error.html", message="Viestin poisto ei onnistunut")
+    return render_template("error.html", message="Viestin poisto ei onnistunut.")
 
 def is_field_too_long(*fields, max_length=20):
     return any(len(field) > max_length for field in fields)

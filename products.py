@@ -54,7 +54,7 @@ def info(product_id, user_id):
     sql = text(
         "SELECT P.product_name, P.type, P.product_number, P.price "
         "FROM products P "
-        "WHERE P.user_id = :user_id AND P.id = :product_id AND P.visible = TRUE "
+        "WHERE P.user_id = :user_id AND P.id = :product_id "
         "ORDER BY P.id"
     )
     result = db.session.execute(sql, {"product_id": product_id, "user_id": user_id})

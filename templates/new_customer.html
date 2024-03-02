@@ -28,8 +28,9 @@
   <div class="content">
     <h2>Uuden asiakkaan luonti</h2>
     <p>Sivustot ovat vielä kehitteillä.</p>
-    <p>Täällä voit luoda uuden asiakkaan! Luo myös omista tiedoistasi asiakas.</p>
-    <p>Kirjoita joka kenttäään jotakin. Max pituus 20 merkkiä min 1 merkki. Käytä esim. 0, jos ei tiedossa</p>
+    <p>Olet kirjautunut sisään nimellä {{ session.username }}.</p>
+    <p>Täällä voit luoda uusia asiakkaita. Luo myös omista tiedoistasi asiakas.</p>
+    <p>Täytä kaikkiin kenttiin vähintään 1 merkki ja enintään 20 merkkiä. Jos tieto puuttuu, käytä esim. arvoa 0.</p>
     <form action="/new_customer" method="post" onsubmit="return check(this);">
       <label for="customer_name">Asiakkaan nimi:</label>
       <input type="text" name="customer_name" id="customer_name">

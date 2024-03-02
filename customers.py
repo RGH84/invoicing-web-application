@@ -55,7 +55,7 @@ def info(biller_id, user_id):
     sql = text(
         "SELECT C.customer_name, C.address, C.phonenumber, C.business_id "
         "FROM customers C "
-        "WHERE C.id = :biller_id AND C.user_id = :user_id AND C.visible = TRUE "
+        "WHERE C.id = :biller_id AND C.user_id = :user_id "
         "ORDER BY C.id"
     )
     result = db.session.execute(sql, {"biller_id": biller_id, "user_id": user_id})
