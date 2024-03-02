@@ -40,7 +40,7 @@ Muut toiminnot ovat vielä kesken ja lisää ominaisuuksia ja entisten parannuks
 
 Sovellusta voi edelleen testata tuotannossa fly.io:n kautta osoitteessa https://invoicing-web-application.fly.dev/ .
 
-## Lopullinen palautus
+## Lopullinen palautus:
 Lopulliseen palautukseen tuli isoimpina muutoksina CSRF-haavoittuvuuden korjaus, ulkoasu on toteutettu CSS:llä, lisätty mahdollisuus poistaa lasku, to do listiin voi lisätä omia muistiinpanoja ja viesti osiossa voi keskustella sovelluksen muiden käyttäjien kanssa ja poistaa viestejä tarpeen mukaan. Sivustoille on lisätty myös JavaScript tarkistukset ja korjailtu myös tarkistuksia, jos JavaScript on pois päältä. Sivustoilla kehotetaan pitämään JavaScript päällä, jotta käyttökokemus olisi parempi.
 
 Sivustoilla lukee, että sivustot ovat kehitteillä. Sovellusta on tarkoitus jatkokehittää omalla ajalla, kunhan kokemusta tulee ohjelmoinnista lisää ja aikaa on. Esim. sovelluksen lasku ominaisuudet ovat tällä hetkellä hyvin alkeellisia.  
