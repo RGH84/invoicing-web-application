@@ -49,6 +49,9 @@ Sovellusta voi edelleen testata tuotannossa Fly.io:n kautta osoitteessa https://
 
 Fly:lta on tullut ainakin yhden kerran sähköpostia, että sovellus on kaatunut muistin vähyyden vuoksi ja tarjoaa maksullista lisämuistia. Sitä en tässä vaiheessa ala ostamaan, joten jos sovellus on jostain syystä alhaalla, niin voitte käynnistää sovelluksen myös paikallisesti kurssimateriaalin ohjeiden mukaisesti. 
 
+## Tilannepäivitys:
+Sovellus ei ole enää testattavissa Fly.io:n kautta. Sovellusta ei ole kehitetty eteenpäin.
+
 
 
 
