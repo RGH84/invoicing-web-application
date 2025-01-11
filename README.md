@@ -2,7 +2,7 @@
 
 ### Alkuperäinen ajatus:
 
-Tarkoitus on luoda yksinkertainen web-pohjainen laskutussovellus. Käyttäjä voi sovelluksella pitää yllä mm. asiakasrekisteriä, tuoterekisteriä ja luoda/arkistoida pdf- laskuja. Käyttäjä voi myös lähettää viestejä sovelluksessa kehittäjälle. Käyttäjä voi pitää yllä muistilistaa, mitä pitää muistaa laskuttaa ym. 
+Tarkoitus oli luoda yksinkertainen web-pohjainen laskutussovellus. Käyttäjä voi sovelluksella pitää yllä mm. asiakasrekisteriä, tuoterekisteriä ja luoda/arkistoida pdf- laskuja. Käyttäjä voi myös lähettää viestejä sovelluksessa kehittäjälle. Käyttäjä voi pitää yllä muistilistaa, mitä pitää muistaa laskuttaa ym. 
 
 Sovelluksen ominaisuuksia tulee olemaan ainakin seuraavat:
 
@@ -50,7 +50,7 @@ Sovellusta voi edelleen testata tuotannossa Fly.io:n kautta osoitteessa https://
 Fly:lta on tullut ainakin yhden kerran sähköpostia, että sovellus on kaatunut muistin vähyyden vuoksi ja tarjoaa maksullista lisämuistia. Sitä en tässä vaiheessa ala ostamaan, joten jos sovellus on jostain syystä alhaalla, niin voitte käynnistää sovelluksen myös paikallisesti kurssimateriaalin ohjeiden mukaisesti. 
 
 ## Tilannepäivitys:
-Sovellus ei ole enää testattavissa Fly.io:n kautta. Sovellusta ei ole kehitetty eteenpäin.
+Sovellus ei ole enää testattavissa Fly.io:n kautta. Sovellusta ei ole kehitetty eteenpäin. 
 
 
 
